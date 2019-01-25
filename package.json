@@ -1,7 +1,7 @@
 {
-  "name": "ember-rdfa-editor-agenda-plugin",
+  "name": "@lblod/ember-rdfa-editor-agenda-plugin",
   "version": "0.0.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "Manages agendas in lblod project",
   "keywords": [
     "ember-addon"
   ],
