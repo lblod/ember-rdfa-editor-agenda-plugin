@@ -1,0 +1,17 @@
+{{#each agendapunten as |agendapunt|}}
+  <span property="besluit:heeftAgendapunt" resource={{agendapunt.uri}} typeof="besluit:Agendapunt">
+    <span property="besluit:geplandOpenbaar"
+      datatype="xsd:boolean"
+      content={{agendapunt.geplandOpenbaar}}
+      class="annotation--agendapunt--open__icon">
+      {{#if agendapunt.geplandOpenbaar}}
+        <i class="fa fa-eye"></i>
+      {{else}}
+        <i class="fa fa-eye-slash"></i>
+      {{/if}}
+    </span>
+    <span>Agendapunt </span> <span property="dc:title">
+      <span >{{agendapunt.titel}}</span>
+    </span>
+  </span>
+{{/each}}

@@ -1,10 +1,33 @@
-<p class="u-spacer--tiny">{{info.label}} <br>
-  <strong>{{info.plainValue}}</strong>
-</p>
+<div class="modal-dialog__header">
+  <div class="grid">
+    <div class="col--10-12">
+      {{#if loadData.isRunning}}
+        <p class="loader"><span class="u-visually-hidden">Aan het laden</span></p>
+      {{else}}
+        <p class="u-spacer--tiny">
+          Wil u graag de <strong> agenda </strong> beheren?
+        </p>
+      {{/if}}
+    </div>
+  </div>
+</div>
 
-{{#wu-button-group}}
-  {{wu-button label="Juist" size="small" isNarrow=true command="ctrl + j" commandLocation="below" onClick=(action "insert")}}
-  {{wu-button label="Negeer" size="tiny" isLink=true isDark=true isNarrow=true command="esc" commandLocation="below" onClick=null}}
-{{/wu-button-group}}
+<div class="modal-dialog__footer">
+  {{#if loadData.isRunning}}
+    <p class="loader"><span class="u-visually-hidden">Aan het laden</span></p>
+  {{else}}
+    {{#wu-button-group}}
+      {{wu-button
+        label="Beheer agenda"
+        isNarrow=true
+        onClick=(action "togglePopup")
+      }}
+    {{/wu-button-group}}
+  {{/if}}
+</div>
 
-{{yield}}
+
+{{#if popup}}
+  {{agenda/agenda-container onInsert=(action "insert") onCancel=(action "togglePopup") agendapunten=agendapunten}}
+  {{agenda/output/agenda-rdfa id=outputAgendapuntenId agendapunten=agendapunten}}
+{{/if}}

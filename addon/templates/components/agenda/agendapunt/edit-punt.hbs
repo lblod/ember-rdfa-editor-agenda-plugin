@@ -1,0 +1,48 @@
+<div class="u-padding--round--small u-background--gray-lightest" style="height:9vh;">
+  <h2 class="h5">Bewerk agendapunt</h2>
+</div>
+
+<label class="form__label form__label--block" for="agendapunt-bewerk">Titel agendapunt</label>
+
+{{textarea class="textarea textarea--block u-spacer--tiny" rows="4" value=(mut agendapunt.titel)}}
+
+
+<div class="button-group u-spacer--small">
+  <label class="radio radio--block">
+    <input type="radio" name="openAgendapunt" checked={{agendapunt.geplandOpenbaar}} onclick={{action (mut agendapunt.geplandOpenbaar) true}} />
+    <span></span>
+    <span>Open agendapunt</span>
+  </label>
+  <label class="radio radio--block">
+    <input type="radio" name="geslotenAgendapunt" checked={{not agendapunt.geplandOpenbaar}} onclick={{action (mut agendapunt.geplandOpenbaar) false}} />
+    <span></span>
+    <span>Besloten agendapunt</span>
+  </label>
+</div>
+
+
+<div class="u-spacer--top--small">
+  {{agenda/agendapunt/move-punt agendapunt=agendapunt agendapunten=agendapunten}}
+</div>
+
+
+<div class="u-padding--round--small u-background--gray-lightest u-spacer--tb--large">
+  <h3 class="h5 u-spacer--tiny">Verwijder agendapunt</h3>
+  <p class="small u-spacer--small">
+    <strong>U kan deze actie niet ongedaan maken.</strong> U verwijdert het agendapunt uit de agenda, en de volledige behandeling van het agendapunt.</p>
+  <div class="delete-me-toggle-info-field">
+    <button class="button button--alt button--alt--warning button--narrow delete-me-toggle-info-field">Verwijder het agendapunt en de behandeling van het agendapunt</button>
+  </div>
+  <div class="delete-me-toggle-info-field u-hidden u-spacer--top--tiny">
+    <h3 class="h5 u-spacer--tiny">Bent u zeker dat u het agendapunt en de behandeling wil verwijderen?</h3>
+    <button class="button button--alt button--alt--warning button--narrow delete-me-toggle-info-field">Behoud agendapunt en behandeling</button>
+    <button class="button button--alt button--alt--warning button--narrow delete-me-toggle-info-field delete-me-switch-new-agendapunt">Verwijder het agendapunt en de behandeling, ik begrijp de gevolgen.</button>
+    <div class="checkbox--switch__wrapper checkbox--switch--small">
+      <input class="checkbox--switch" id="toggle-1" type="checkbox" name="toggle" value="" checked="checked">
+      <label class="checkbox--switch__label" for="toggle-1"></label>
+      <span>Toon annotaties</span>
+    </div>
+  </div>
+</div>
+
+{{yield}}

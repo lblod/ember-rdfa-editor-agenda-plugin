@@ -2,9 +2,16 @@ import { getOwner } from '@ember/application';
 import Service from '@ember/service';
 import EmberObject, { computed } from '@ember/object';
 import { task } from 'ember-concurrency';
+import { isArray } from '@ember/array';
+import { warn } from '@ember/debug';
 
 /**
- * Service responsible for correct annotation of dates
+ * Service responsible for management of agenda
+ *
+ *  ASSUMPTIONS (to be checked)
+ *  --------------------------
+ *  - only one agenda to zitting
+ *  - no bestuursorgaan
  *
  * @module editor-agenda-plugin
  * @class RdfaEditorAgendaPlugin
@@ -12,11 +19,7 @@ import { task } from 'ember-concurrency';
  * @extends EmberService
  */
 const RdfaEditorAgendaPlugin = Service.extend({
-
-  init(){
-    this._super(...arguments);
-    const config = getOwner(this).resolveRegistration('config:environment');
-  },
+  insertAgendaText: 'http://mu.semte.ch/vocabularies/ext/insertAgendaText',
 
   /**
    * Restartable task to handle the incoming events from the editor dispatcher
@@ -34,18 +37,29 @@ const RdfaEditorAgendaPlugin = Service.extend({
     if (contexts.length === 0) return [];
 
     const hints = [];
-    contexts.forEach((context) => {
-      let relevantContext = this.detectRelevantContext(context)
-      if (relevantContext) {
-        hintsRegistry.removeHintsInRegion(context.region, hrId, this.get('who'));
-        hints.pushObjects(this.generateHintsForContext(context));
+
+    for(let context of contexts){
+      let triple = this.detectRelevantContext(context);
+
+      if(!triple) continue;
+
+      let domNode = this.findDomNodeForContext(editor, context, this.domNodeMatchesRdfaInstructive(triple));
+
+      if(!domNode) continue;
+
+      if(triple.predicate == this.insertAgendaText){
+        hintsRegistry.removeHintsInRegion(context.region, hrId, this.who);
+        hints.pushObjects(this.generateHintsForContext(context, triple, domNode, editor));
       }
-    });
-    const cards = hints.map( (hint) => this.generateCard(hrId, hintsRegistry, editor, hint));
-    if(cards.length > 0){
-      hintsRegistry.addHints(hrId, this.get('who'), cards);
+
     }
-  }).restartable(),
+
+    const cards = hints.map( (hint) => this.generateCard(hrId, hintsRegistry, editor, hint, this.who));
+    if(cards.length > 0){
+      hintsRegistry.addHints(hrId, this.who, cards);
+    }
+
+  }).keepLatest(),
 
   /**
    * Given context object, tries to detect a context the plugin can work on
@@ -59,10 +73,11 @@ const RdfaEditorAgendaPlugin = Service.extend({
    * @private
    */
   detectRelevantContext(context){
-    return context.text.toLowerCase().indexOf('hello') >= 0;
+    if(context.context.slice(-1)[0].predicate == this.insertAgendaText){
+      return context.context.slice(-1)[0];
+    }
+    return null;
   },
-
-
 
   /**
    * Maps location of substring back within reference location
@@ -94,17 +109,21 @@ const RdfaEditorAgendaPlugin = Service.extend({
    *
    * @private
    */
-  generateCard(hrId, hintsRegistry, editor, hint){
+  generateCard(hrId, hintsRegistry, editor, hint, cardName){
     return EmberObject.create({
+
       info: {
-        label: this.get('who'),
-        plainValue: hint.text,
-        htmlString: '<b>hello world</b>',
         location: hint.location,
+        domReference: hint.domReference,
+        instructiveUri: hint.instructiveUri,
+        editMode: hint.options.editMode,
         hrId, hintsRegistry, editor
       },
+
       location: hint.location,
-      card: this.get('who')
+      options: hint.options,
+      card: cardName
+
     });
   },
 
@@ -119,14 +138,49 @@ const RdfaEditorAgendaPlugin = Service.extend({
    *
    * @private
    */
-  generateHintsForContext(context){
+  generateHintsForContext(context, instructiveTriple, domNode, editor, options = {}){
     const hints = [];
-    const index = context.text.toLowerCase().indexOf('hello');
-    const text = context.text.slice(index, index+5);
-    const location = this.normalizeLocation([index, index + 5], context.region);
-    hints.push({text, location});
+    let location = context.region;
+    //we keep only reference, domNode might not be attached when being used
+    //note: we assume here only one agenda in document
+    let domReference = domNode.attributes.property;
+    hints.push({location, domReference, instructiveUri: instructiveTriple.predicate, options});
     return hints;
+  },
+
+  /**************************************************************************************
+   * HELPERS
+   **************************************************************************************/
+  ascendDomNodesUntil(rootNode, domNode, condition){
+    if(!domNode || rootNode.isEqualNode(domNode)) return null;
+    if(!condition(domNode))
+      return this.ascendDomNodesUntil(rootNode, domNode.parentElement, condition);
+    return domNode;
+  },
+
+  domNodeMatchesRdfaInstructive(instructiveRdfa){
+    let ext = 'http://mu.semte.ch/vocabularies/ext/';
+    return (domNode) => {
+      if(!domNode.attributes || !domNode.attributes.property)
+        return false;
+      let expandedProperty = domNode.attributes.property.value.replace('ext:', ext);
+      if(instructiveRdfa.predicate == expandedProperty)
+        return true;
+      return false;
+    };
+  },
+
+  findDomNodeForContext(editor, context, condition){
+    let richNodes = isArray(context.richNode) ? context.richNode : [ context.richNode ];
+    let domNode = richNodes
+          .map(r => this.ascendDomNodesUntil(editor.rootNode, r.domNode, condition))
+          .find(d => d);
+    if(!domNode){
+      warn(`Trying to work on unattached domNode. Sorry can't handle these...`, {id: 'comiteAanstelling.domNode'});
+    }
+    return domNode;
   }
+
 });
 
 RdfaEditorAgendaPlugin.reopen({
