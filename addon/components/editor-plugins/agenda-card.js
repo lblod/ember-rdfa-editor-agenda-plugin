@@ -117,6 +117,7 @@ export default Component.extend({
   },
 
   createBvapDom(agendapunt){
+    //TODO: fix variables, fix agendapunt number
     let html = `
        <div property="ext:behandelt" resource="http://data.lblod.info/id/behandelingen-van-agendapunten/${uuid()}" typeof="besluit:BehandelingVanAgendapunt">
          <span property="besluit:openbaar" datatype="xsd:boolean" content="true" class="annotation--agendapunt--open__icon">
