@@ -103,9 +103,9 @@ export default Component.extend({
   },
 
   findPreviousBvapDomNode(bvapDom){
-    let bvap  = document.querySelector("[property='besluit:gebeurtNa']");
+    let bvap  = bvapDom.querySelector("[property='besluit:gebeurtNa']");
     if(!bvap)
-      bvap = document.querySelector("[typeof='http://data.vlaanderen.be/ns/besluit#gebeurtNa']");
+      bvap = bvapDom.querySelector("[typeof='http://data.vlaanderen.be/ns/besluit#gebeurtNa']");
     return bvap;
   },
 
@@ -150,7 +150,13 @@ export default Component.extend({
     if(!previous)
       return;
 
-    bvap.setAttribute('resource', previous.getAttribute('resource'));
+    if(node){
+      node.setAttribute('resource', previous.getAttribute('resource'));
+      return;
+    }
+
+    let html = `<meta property="besluit:gebeurtNa" resource="${previous.getAttribute('resource')}">`;
+    bvap.prepend(this.createElementsFromHTML(html)[0]);
   },
 
   insertBvaps(){
