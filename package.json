@@ -21,13 +21,15 @@
     "test:all": "ember try:each"
   },
   "dependencies": {
+    "@lblod/ember-rdfa-editor-generic-model-plugin-utils": "^0.2.3",
+    "@lblod/ember-vo-webuniversum": "^0.19.6",
     "ember-cli-babel": "^6.16.0",
     "ember-cli-htmlbars": "^3.0.0",
-    "@lblod/ember-vo-webuniversum": "^0.19.6",
-    "@lblod/ember-rdfa-editor-generic-model-plugin-utils": "^0.2.3",
-    "uuid": "^3.3.2",
+    "ember-power-select": "^2.0.12",
     "ember-truth-helpers": "^2.1.0",
-    "ember-power-select": "^2.0.12"
+    "uuid": "^3.3.2",
+    "ember-auto-import": "^1.2.19",
+    "@lblod/marawa": "*"
   },
   "devDependencies": {
     "@ember/optional-features": "^0.6.3",
