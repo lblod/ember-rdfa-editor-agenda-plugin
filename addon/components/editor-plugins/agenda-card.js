@@ -5,6 +5,8 @@ import { task } from 'ember-concurrency';
 import { A } from '@ember/array';
 import uuid from 'uuid/v4';
 import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
+import RdfaContextScanner from '@lblod/marawa/dist/rdfa-context-scanner';
 
 /**
  * Card displaying a hint of the Date plugin
@@ -20,6 +22,7 @@ import { computed } from '@ember/object';
  */
 export default Component.extend({
   layout,
+  tripleSerialization: service('triplesSerializationUtils'),
 
   /**
    * Region on which the card applies
@@ -62,26 +65,21 @@ export default Component.extend({
     this.loadData.perform();
   },
 
+  serializeTableToTriples(table){
+    const contextScanner = new RdfaContextScanner();
+    const contexts = contextScanner.analyse(table, []).map((c) => c.context);
+    return Array.concat(...contexts);
+  },
 
   loadData: task(function *(){
-     if(this.info.editMode){
-       // try{
-       //   yield this.loadDataEditMode();
-       //   if(this.mandatarissen.length == 0){
-       //     //user might have broken the table. Reload it here
-       //     yield this.loadDataInitialMode();
-       //   }
-       // }
-       // catch(error){
-       //   console.log('------ issues loading mandatarissen bijzonder comite');
-       //   //issues might occur because of big refactoring of code.
-       //   //So silent fallback reload this.
-       //   yield this.loadDataInitialMode();
-       // }
-     }
+    if(this.info.editMode){
+      //TODO: performance: avoid duplicate triples
+      let triples = this.serializeTableToTriples(this.getDomNodeToUpdate(this.info.domReference.value));
+      let agendapunten = yield this.tripleSerialization.getAllResourcesForType('http://data.vlaanderen.be/ns/besluit#Agendapunt', triples, true);
+      this.set('agendapunten', agendapunten);
+    }
     else
       this.set('agendapunten', A([]));
-        //yield this.loadDataInitialMode();
   }),
 
   createWrappingHTML(innerHTML, type = 'ext:agendapuntenTable'){
@@ -157,7 +155,7 @@ export default Component.extend({
   insertBvaps(){
     let bvaps = [ ...this.findbvapDomNodes() ];
     let bvapsMap = {};
-    bvaps.forEach(ap => bvapsMap[ap.querySelector("[property='dc:subject']").getAttribute('resource')].push(ap));
+    bvaps.forEach(ap => bvapsMap[ap.querySelector("[property='dc:subject']").getAttribute('resource')] = ap );
 
     //clean up
     bvaps.forEach(ap => ap.remove());
@@ -177,7 +175,8 @@ export default Component.extend({
     newBvaps.forEach(( bvap, idx ) => this.updatePreviousBvap(bvap, newBvaps[idx - 1]));
 
     //big html from bvap
-    return newBvaps.map(b => b.outerHTML).join('&nbsp;');
+    let allBvaps = newBvaps.map(b => b.outerHTML).join('&nbsp;');
+    return this.createWrappingHTML(allBvaps, 'ext:behandelingVanAgendapuntenContainer');
   },
 
   actions: {

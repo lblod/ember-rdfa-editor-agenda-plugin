@@ -20,6 +20,7 @@ import { warn } from '@ember/debug';
  */
 const RdfaEditorAgendaPlugin = Service.extend({
   insertAgendaText: 'http://mu.semte.ch/vocabularies/ext/insertAgendaText',
+  agendapuntenTable: 'http://mu.semte.ch/vocabularies/ext/agendapuntenTable',
 
   /**
    * Restartable task to handle the incoming events from the editor dispatcher
@@ -52,6 +53,13 @@ const RdfaEditorAgendaPlugin = Service.extend({
         hints.pushObjects(this.generateHintsForContext(context, triple, domNode, editor));
       }
 
+      let domNodeRegion = [ editor.getRichNodeFor(domNode).start, editor.getRichNodeFor(domNode).end ];
+      //sometimes it gets a double hint
+      if(triple.predicate == this.agendapuntenTable && !hints.find(h => h.location[0] == domNodeRegion[0] && h.location[1] == domNodeRegion[1])){
+        hintsRegistry.removeHintsInRegion(domNodeRegion, hrId, this.who);
+        hints.pushObjects(this.generateHintsForContext(context, triple, domNode, editor));
+      }
+
     }
 
     const cards = hints.map( (hint) => this.generateCard(hrId, hintsRegistry, editor, hint, this.who));
@@ -74,6 +82,9 @@ const RdfaEditorAgendaPlugin = Service.extend({
    */
   detectRelevantContext(context){
     if(context.context.slice(-1)[0].predicate == this.insertAgendaText){
+      return context.context.slice(-1)[0];
+    }
+    if(context.context.slice(-1)[0].predicate == this.agendapuntenTable){
       return context.context.slice(-1)[0];
     }
     return null;
@@ -144,6 +155,13 @@ const RdfaEditorAgendaPlugin = Service.extend({
     //we keep only reference, domNode might not be attached when being used
     //note: we assume here only one agenda in document
     let domReference = domNode.attributes.property;
+
+    if(instructiveTriple.predicate == this.agendapuntenTable){
+      location = [ editor.getRichNodeFor(domNode).start, editor.getRichNodeFor(domNode).end ];
+      options.noHighlight = true;
+      options.editMode = true;
+    }
+
     hints.push({location, domReference, instructiveUri: instructiveTriple.predicate, options});
     return hints;
   },
