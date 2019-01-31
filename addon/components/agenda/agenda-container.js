@@ -3,6 +3,7 @@ import layout from '../../templates/components/agenda/agenda-container';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency';
 import { getProperties } from '@ember/object';
+import EmberObject from '@ember/object';
 
 //TODO: work on copys of object
 export default Component.extend({
@@ -21,9 +22,9 @@ export default Component.extend({
     //clones, does not clone recursivly
     let keys = Object.keys(instance);
     return  keys.reduce((target, k) => {
-      target[k] = instance.get(k);
+      target.set(k, instance.get(k));
       return target;
-    }, {});
+    }, EmberObject.create({}));
   },
 
   update(data, target){
@@ -34,6 +35,7 @@ export default Component.extend({
   createNewAgendapunt: task(function* (){
     let typeUri = (yield this.metaModelQuery.getMetaModelForLabel('agendapunt')).get('rdfaType');
     let agendapunt = yield this.tripleSerialization.createEmptyResource(typeUri, true);
+    agendapunt.set('geplandOpenbaar', false);
     this.set('agendapuntToEdit', this.copy(agendapunt));
     this.set('agendapuntToEditOrig', agendapunt);
     this.set('createMode', true);
