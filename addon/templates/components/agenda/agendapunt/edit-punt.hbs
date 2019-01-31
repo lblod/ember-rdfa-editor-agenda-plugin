@@ -31,12 +31,20 @@
   <p class="small u-spacer--small">
     <strong>U kan deze actie niet ongedaan maken.</strong> U verwijdert het agendapunt uit de agenda, en de volledige behandeling van het agendapunt.</p>
   <div class="delete-me-toggle-info-field">
-    <button class="button button--alt button--alt--warning button--narrow delete-me-toggle-info-field">Verwijder het agendapunt en de behandeling van het agendapunt</button>
+    {{#wu-button
+       onClick=(action "remove")
+       class="button button--alt button--alt--warning button--narrow delete-me-toggle-info-field"}}
+      Verwijder het agendapunt en de behandeling van het agendapunt
+    {{/wu-button}}
   </div>
   <div class="delete-me-toggle-info-field u-hidden u-spacer--top--tiny">
     <h3 class="h5 u-spacer--tiny">Bent u zeker dat u het agendapunt en de behandeling wil verwijderen?</h3>
     <button class="button button--alt button--alt--warning button--narrow delete-me-toggle-info-field">Behoud agendapunt en behandeling</button>
-    <button class="button button--alt button--alt--warning button--narrow delete-me-toggle-info-field delete-me-switch-new-agendapunt">Verwijder het agendapunt en de behandeling, ik begrijp de gevolgen.</button>
+    {{#wu-button
+       onClick=(action "remove")
+       class="button button--alt button--alt--warning button--narrow delete-me-toggle-info-field delete-me-switch-new-agendapunt"}}
+      Verwijder het agendapunt en de behandeling, ik begrijp de gevolgen.
+    {{/wu-button}}
     <div class="checkbox--switch__wrapper checkbox--switch--small">
       <input class="checkbox--switch" id="toggle-1" type="checkbox" name="toggle" value="" checked="checked">
       <label class="checkbox--switch__label" for="toggle-1"></label>

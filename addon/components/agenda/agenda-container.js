@@ -48,6 +48,11 @@ export default Component.extend({
       this.createNewAgendapunt.perform();
     },
 
+    remove(){
+      this.agendapunten.removeObject(this.agendapuntToEditOrig);
+      this.resetState();
+    },
+
     edit(agendapunt){
       this.set('editMode', true);
       this.set('agendapuntToEditOrig', agendapunt);

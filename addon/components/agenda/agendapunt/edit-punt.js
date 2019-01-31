@@ -12,6 +12,10 @@ export default Component.extend({
   actions: {
     toggleGeplandOpenbaar(){
       this.agendapunt.set('geplandOpenbaar', !this.agendapunt.geplandOpenbaar);
+    },
+
+    remove(){
+      this.onRemove(this.agendapunt);
     }
   }
 });

@@ -9,7 +9,7 @@
     {{#unless editMode}}
       {{agenda/table/agendapunten-table agendapunten=agendapunten onEdit=(action "edit") onCreate=(action "create")}}
 {{else}}
-      {{agenda/agendapunt/edit-punt agendapunt=agendapuntToEdit agendapunten=agendapunten}}
+      {{agenda/agendapunt/edit-punt agendapunt=agendapuntToEdit agendapunten=agendapunten onRemove=(action "remove")}}
     {{/unless}}
   {{/m.content}}
 

@@ -1,3 +1,7 @@
+{{#unless agendapunten.length}}
+  beheer agenda
+{{/unless}}
+
 {{#each agendapunten as |agendapunt|}}
   <span property="besluit:heeftAgendapunt" resource={{agendapunt.uri}} typeof="besluit:Agendapunt">
     <span property="besluit:geplandOpenbaar"
