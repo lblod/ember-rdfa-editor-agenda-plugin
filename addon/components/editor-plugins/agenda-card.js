@@ -75,6 +75,8 @@ export default Component.extend({
     if(this.info.editMode){
       //TODO: performance: avoid duplicate triples
       let triples = this.serializeTableToTriples(this.getDomNodeToUpdate(this.info.domReference.value));
+      //TODO: trim on other level
+      triples.forEach(t => t.object = typeof t.object == "string" && t.object.trim());
       let agendapunten = yield this.tripleSerialization.getAllResourcesForType('http://data.vlaanderen.be/ns/besluit#Agendapunt', triples, true);
       this.set('agendapunten', agendapunten);
     }
