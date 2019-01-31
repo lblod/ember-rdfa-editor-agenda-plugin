@@ -129,6 +129,9 @@ export default Component.extend({
          <h3 class="h6">Aanwezigen bij agendapunt</h3>
          <p property="ext:insertAanwezigenText"><mark data-editor-highlight="true">Beheer aanwezigen bij agendapunt.</mark></p>
          <br>&nbsp;
+         Voeg besluit toe
+         <br>
+         &nbsp;
        </div>`;
     return this.createElementsFromHTML(html)[0];
   },
