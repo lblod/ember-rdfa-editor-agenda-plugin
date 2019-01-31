@@ -9,12 +9,12 @@
 
 <div class="button-group u-spacer--small">
   <label class="radio radio--block">
-    <input type="radio" name="openAgendapunt" checked={{agendapunt.geplandOpenbaar}} onclick={{action (mut agendapunt.geplandOpenbaar) true}} />
+    <input type="radio" name="openAgendapunt" checked={{geplandOpenbaar}} onclick={{action "toggleGeplandOpenbaar"}} />
     <span></span>
     <span>Open agendapunt</span>
   </label>
   <label class="radio radio--block">
-    <input type="radio" name="geslotenAgendapunt" checked={{not agendapunt.geplandOpenbaar}} onclick={{action (mut agendapunt.geplandOpenbaar) false}} />
+    <input type="radio" name="geslotenAgendapunt" checked={{not geplandOpenbaar}} onclick={{action "toggleGeplandOpenbaar"}} />
     <span></span>
     <span>Besloten agendapunt</span>
   </label>
