@@ -1,9 +1,10 @@
-{{#unless agendapunten.length}}
+{{#unless sortedAP.length}}
   <mark data-editor-highlight="true">beheer agenda</mark>
 {{/unless}}
 
-{{#each agendapunten as |agendapunt|}}
-  <span property="besluit:heeftAgendapunt" resource={{agendapunt.uri}} typeof="besluit:Agendapunt">
+{{#each sortedAP as |agendapunt|}}
+  <span property="besluit:behandelt" resource={{agendapunt.uri}} typeof="besluit:Agendapunt">
+    <meta property="besluit:aangebrachtNa" resource={{agendapunt.vorigeAgendapunt.0.uri}}>
     <span property="besluit:geplandOpenbaar"
       datatype="xsd:boolean"
       content="{{agendapunt.geplandOpenbaar}}"

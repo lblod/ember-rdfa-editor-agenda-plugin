@@ -3,42 +3,55 @@ import layout from '../../../templates/components/agenda/agendapunt/move-punt';
 import { A } from '@ember/array';
 import { task } from 'ember-concurrency';
 
-//TODO: MOOOOVE LOGIC
 export default Component.extend({
   layout,
-  locationInAgenda: [{ id: 0, name: 'vooraan in agenda' },
-                     { id: -1, name: 'achteraan in agenda' },
-                     { id: 1, name: 'na agendapunt' } ],
+  locationInAgenda: [{ index: 0, name: 'vooraan in agenda' },
+                     { index: -1, name: 'achteraan in agenda' },
+                     { index: 1, name: 'na agendapunt' } ],
 
   hanldeMoveLocationAgendapunt(selected){
-    if(selected.id == 1){
+    if(selected.index == 1){
       this.set('agendapuntenTitelSelector', true);
       return;
     }
+
+    if(this.agendapunten.length == 0){
+      this.onUpdateLocation(0);
+      return;
+    }
+
+    if(selected.index == -1){
+      this.onUpdateLocation(this.agendapunten.length -1);
+      return;
+    }
+
+    this.onUpdateLocation(selected.index);
+
     this.set('agendapuntenTitelSelector', false);
-    return;
   },
 
   didReceiveAttrs(){
     this._super(...arguments);
     if(this.agendapunten){
-      this._agendapunten = A(this.agendapunten.map( (a, idx) => { return { id: idx, agendapunt: a }; }));
+      this._agendapunten = this.agendapunten.filter(a => a.uri != this.agendapunt.uri); //exclude current agendapunt
     }
   },
 
   searchTitle: task(function*(searchData) {
-    return this._agendapunten.filter(a => a.agendapunt.titel.trim().toLowerCase().indexOf(searchData.toLowerCase().trim()) > -1);
+    return this._agendapunten.filter(a => a.titel.toLowerCase().indexOf(searchData.toLowerCase().trim()) > -1);
   }),
 
   actions: {
 
     selectLocation(selected){
       this.hanldeMoveLocationAgendapunt(selected);
-      this.set('selectedLocation', selected);
+      this.set('_selectedLocation', selected);
     },
 
     selectAfter(selected){
-
+      this.set('_selectedAfterAgendapunt', selected);
+      let currIndex = this.agendapunten.indexOf(selected);
+      this.onUpdateLocation(currIndex);
     }
 
   }

@@ -4,8 +4,8 @@ import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency';
 import { getProperties } from '@ember/object';
 import EmberObject from '@ember/object';
+import { A } from '@ember/array';
 
-//TODO: work on copys of object
 export default Component.extend({
   layout,
   metaModelQuery: service(),
@@ -16,6 +16,7 @@ export default Component.extend({
     this.set('agendapuntToEdit', null);
     this.set('createMode', false);
     this.set('editMode', false);
+    this.set('newIndex', null);
   },
 
   copy(instance){
@@ -41,6 +42,17 @@ export default Component.extend({
     this.set('createMode', true);
     this.set('editMode', true);
   }),
+
+  swapIndex(agendapunt, newIndex){
+    if(!newIndex && !newIndex == 0) return; //seriously?
+    let old = this.agendapunten.indexOf(agendapunt);
+    if(old == newIndex) return;
+    this.agendapunten.splice(newIndex, 0, this.agendapunten.splice(old, 1)[0]);
+    //note a quirk from generic model plugin, it has no notion of has-one/has-many so this is why we have has many
+    this.agendapunten[0].set('vorigeAgendapunt', A());
+    this.agendapunten.slice(1).forEach((a,i) => a.set('vorigeAgendapunt', A([this.agendapunten[i]])));
+    this.agendapunten.setObjects(this.agendapunten.map(a => a)); //it seems swapping elements in position does not trigger CP....
+  },
 
   actions: {
 
@@ -72,11 +84,16 @@ export default Component.extend({
       if(this.createMode){
         this.agendapunten.pushObject(this.agendapuntToEditOrig);
       }
+      this.swapIndex(this.agendapuntToEditOrig, this.newIndex);
       this.resetState();
     },
 
     cancelEdit(){
       this.resetState();
+    },
+
+    onUpdateLocation(newIndex){
+      this.set('newIndex', newIndex);
     }
   }
 });
