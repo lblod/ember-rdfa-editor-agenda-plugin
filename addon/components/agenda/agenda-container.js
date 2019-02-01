@@ -44,10 +44,13 @@ export default Component.extend({
   }),
 
   swapIndex(agendapunt, newIndex){
-    if(!newIndex && !newIndex == 0) return; //seriously?
+    if(!newIndex && newIndex != 0) return; //seriously?
     let old = this.agendapunten.indexOf(agendapunt);
     if(old == newIndex) return;
     this.agendapunten.splice(newIndex, 0, this.agendapunten.splice(old, 1)[0]);
+  },
+
+  setOrder(){
     //note a quirk from generic model plugin, it has no notion of has-one/has-many so this is why we have has many
     this.agendapunten[0].set('vorigeAgendapunt', A());
     this.agendapunten.slice(1).forEach((a,i) => a.set('vorigeAgendapunt', A([this.agendapunten[i]])));
@@ -85,6 +88,7 @@ export default Component.extend({
         this.agendapunten.pushObject(this.agendapuntToEditOrig);
       }
       this.swapIndex(this.agendapuntToEditOrig, this.newIndex);
+      this.setOrder();
       this.resetState();
     },
 
