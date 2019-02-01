@@ -2,11 +2,11 @@
 
 module.exports = {
   name: require('./package').name,
-    options: {
+  options: {
     autoImport:{
       webpack: {
         // extra webpack configuration goes here
       }
     }
-    }
+  }
 };
