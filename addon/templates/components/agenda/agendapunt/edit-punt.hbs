@@ -20,10 +20,11 @@
   </label>
 </div>
 
-
+{{#unless createMode}} {{!-- disable this needs harder thinking brainfart at 4 am --}}
 <div class="u-spacer--top--small">
   {{agenda/agendapunt/move-punt agendapunt=agendapunt agendapunten=agendapunten onUpdateLocation=(action "onUpdateLocation")}}
 </div>
+{{/unless}}
 
 {{#unless createMode}}
 <div class="u-padding--round--small u-background--gray-lightest u-spacer--tb--large">
