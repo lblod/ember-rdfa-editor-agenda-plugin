@@ -15,6 +15,16 @@ import RdfaContextScanner from '@lblod/marawa/dist/rdfa-context-scanner';
  *  - only one agenda to zitting
  *  - always a zitting
  *  - behandelingen van agendapunt linked to zitting! (through ext)
+ * TODO
+ * -----
+ * - zitting: to put besluit:behandelt
+ * - delete agendapunt
+ * - move agendapunt
+ * - display agendapunt numbering
+ * - fix variables where variables could be useful
+ * - agendapunt gebeurt na/voor
+ * - working on temp objects should be easier then cloning it
+ *
  *
  * @module editor-agenda-plugin
  * @class AgendaCard
@@ -78,6 +88,7 @@ export default Component.extend({
       //TODO: trim on other level
       triples.forEach(t => t.object = typeof t.object == "string" && t.object.trim());
       let agendapunten = yield this.tripleSerialization.getAllResourcesForType('http://data.vlaanderen.be/ns/besluit#Agendapunt', triples, true);
+      agendapunten.forEach(a => a.geplandOpenbaar = a.geplandOpenbaar == 'true' || a.geplandOpenbaar == true);
       this.set('agendapunten', agendapunten);
     }
     else
@@ -119,7 +130,6 @@ export default Component.extend({
   },
 
   createBvapDom(agendapunt){
-    //TODO: fix variables, fix agendapunt number
     let html = `
        <div property="ext:behandelt" resource="http://data.lblod.info/id/behandelingen-van-agendapunten/${uuid()}" typeof="besluit:BehandelingVanAgendapunt">
          <span property="besluit:openbaar" datatype="xsd:boolean" content="true" class="annotation--agendapunt--open__icon">
