@@ -1,7 +1,7 @@
-ember-rdfa-editor-agenda-plugin
+@lblod/ember-rdfa-editor-agenda-plugin
 ==============================================================================
 
-[Short description of the addon.]
+Plugin responsible for managing agenda.
 
 Installation
 ------------------------------------------------------------------------------
@@ -13,9 +13,11 @@ ember install ember-rdfa-editor-agenda-plugin
 
 Usage
 ------------------------------------------------------------------------------
-
-[Longer description of how to use the addon in apps.]
-
+Add
+```
+<span property="ext:insertAgendaText">voeg lijst met agenda toe.</span>
+```
+A card will show up. When save RDFA output in document.
 
 Contributing
 ------------------------------------------------------------------------------
