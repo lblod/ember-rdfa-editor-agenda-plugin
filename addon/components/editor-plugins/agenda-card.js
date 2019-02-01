@@ -17,13 +17,10 @@ import RdfaContextScanner from '@lblod/marawa/dist/rdfa-context-scanner';
  *  - behandelingen van agendapunt linked to zitting! (through ext)
  * TODO
  * -----
- * - zitting: to put besluit:behandelt
- * - delete agendapunt
- * - move agendapunt
  * - display agendapunt numbering
  * - fix variables where variables could be useful
- * - agendapunt gebeurt na/voor
  * - working on temp objects should be easier then cloning it
+ * - onCreate user should set order immediatly...(disabled it because no time)
  *
  *
  * @module editor-agenda-plugin
