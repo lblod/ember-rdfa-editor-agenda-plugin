@@ -1,30 +1,31 @@
-<label class="form__label form__label--block u-spacer--small">Verplaats agendapunt</label>
-<div class="grid">
-  <div class="col--6-12">
-    {{#power-select
-       class="select select--block u-spacer--tiny"
-       renderInPlace=true
-       placeholder="Selecteer een optie"
-       options=locationInAgenda
-       selected=_selectedLocation
-       onchange=(action "selectLocation")
-       as |location|}}
-      {{location.name}}
-    {{/power-select}}
-  </div>
+<label class="form__label">Verplaats agendapunt
+	<div class="grid">
+	  <div class="col--6-12">
+	    {{#power-select
+	       class="select select--block u-spacer--tiny"
+	       renderInPlace=true
+	       placeholder="Selecteer een optie"
+	       options=locationInAgenda
+	       selected=_selectedLocation
+	       onchange=(action "selectLocation")
+	       as |location|}}
+	      {{location.name}}
+	    {{/power-select}}
+	  </div>
 
-{{#if agendapuntenTitelSelector}}
-  <div class="col--6-12">
-    {{#power-select
-       class="js-select u-spacer--small"
-       renderInPlace=true
-       placeholder="Zoek op titel"
-       search=(perform searchTitle)
-       selected=_selectedAfterAgendapunt
-       onchange=(action "selectAfter")
-       as |a|}}
-        {{a.titel}}
-      {{/power-select}}
-  </div>
-{{/if}}
-</div>
+		{{#if agendapuntenTitelSelector}}
+		  <div class="col--6-12">
+		    {{#power-select
+		       class="js-select u-spacer--small"
+		       renderInPlace=true
+		       placeholder="Zoek op titel"
+		       search=(perform searchTitle)
+		       selected=_selectedAfterAgendapunt
+		       onchange=(action "selectAfter")
+		       as |a|}}
+		        {{a.titel}}
+		      {{/power-select}}
+		  </div>
+		{{/if}}
+	</div>
+</label>

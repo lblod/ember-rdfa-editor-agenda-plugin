@@ -4,7 +4,7 @@
       <tr>
         {{!-- <th class="u-align-right" style="max-width: 4rem;">Orde</th> --}}
         <th style="width: 600px;">Titel agendapunt</th>
-        <th>Gepland openbaar?</th>
+        <th>Geplande openbaarheid</th>
         <th>
           <div class="grid">
             <div class="col--2-12">Acties</div>
@@ -22,6 +22,11 @@
       </tr>
     </thead>
     <tbody>
+    	{{#unless agendapunten}}
+    		<tr>
+    			<td colspan="3">Geen agendapunten gevonden.</td>
+    		</tr>
+    	{{/unless}}
       {{#each agendapunten as |agendapunt|}}
         <tr>
           {{!--  <td class="u-align-right">1</td> --}}
@@ -30,9 +35,9 @@
           </td>
           <td>
             {{#if agendapunt.geplandOpenbaar}}
-              Ja
+              Openbaar
             {{else}}
-              Neen
+              Besloten
             {{/if}}
           </td>
           <td>
