@@ -1,8 +1,8 @@
-<div class="u-padding--round--tiny u-background--gray-lightest">
+<div class="u-padding--round--small u-background--gray-lightest">
   <h2 class="h5">Bewerk agendapunt</h2>
 </div>
 
-<div class="u-padding--round--tiny">
+<div class="u-padding--round--small">
 
 	<label class="form__label form__label--block" for="agendapunt-bewerk">
 		Titel agendapunt
@@ -20,11 +20,21 @@
     <span>Openbaar agendapunt</span>
   </label>
 
-	{{#unless createMode}} {{!-- disable this needs harder thinking brainfart at 4 am --}}
-	<div class="u-spacer--top--small">
-	  {{agenda/agendapunt/move-punt agendapunt=agendapunt agendapunten=agendapunten onUpdateLocation=(action "onUpdateLocation")}}
-	</div>
-	{{/unless}}
+  {{#if createMode}}
+  <div class="grid grid--collapse">
+  	<div class="col--8-12 col--1-1--s">
+			<div class="u-padding--round--small u-background--gray-lightest u-spacer--tb--large">
+				<p class="u-spacer--tiny">Een agendapunt verplaatsen</p>
+		  	<p class="smaller">Om het agendapunt te verplaatsen, klik eerst op <strong>Bewaar agendapunt</strong>. Vervolgens klikt u bij het agendapunt dat u wil verplaatsen op <strong>Bewerk agendapunt</strong>. U kan vervolgens het agendapunt verplaatsen bij <strong>Verplaats agendapunt</strong>.</p>
+		  </div>
+  	</div>
+  </div>
+
+  {{else}}  {{!-- disable this needs harder thinking brainfart at 4 am --}}
+		<div class="u-spacer--top--small">
+		  {{agenda/agendapunt/move-punt agendapunt=agendapunt agendapunten=agendapunten onUpdateLocation=(action "onUpdateLocation")}}
+		</div>
+	{{/if}}
 
 	{{#unless createMode}}
 	<div class="u-padding--round--small u-background--gray-lightest u-spacer--tb--large">
@@ -51,7 +61,7 @@
         <label class="checkbox checkbox--block">
           {{input class="checkbox__toggle" type="checkbox" checked=hasAgreed}}
           <span></span>
-          <span>Ik begrijp dat het agendapunt en de behandeling van het agendapunt onomkeerbaar verwikderd worden.</span>
+          <span>Ik begrijp dat het agendapunt en de behandeling van het agendapunt onomkeerbaar verwijderd worden.</span>
         </label>
       </div>
 
