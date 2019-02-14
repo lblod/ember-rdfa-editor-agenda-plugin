@@ -136,9 +136,11 @@ export default Component.extend({
          </span>
          <br>
          <h3 class="h6">Aanwezigen bij agendapunt</h3>
-         <p property="ext:insertAanwezigenText"><mark data-editor-highlight="true">Beheer aanwezigen bij agendapunt.</mark></p>
          <br>
-         <div>Voeg besluit toe</div>
+         <div property="ext:insertAanwezigenText"><mark data-editor-highlight="true">Beheer aanwezigen bij agendapunt</mark></div>
+         <br>
+         <br>
+         <div>Voeg sjabloon in</div>
          <br>
        </div>`;
     return this.createElementsFromHTML(html)[0];
