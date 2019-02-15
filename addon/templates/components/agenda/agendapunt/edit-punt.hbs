@@ -4,20 +4,23 @@
 
 <div class="u-padding--round--small">
 
-	<label class="form__label form__label--block" for="agendapunt-bewerk">
+	<label class="form__label form__label--block u-spacer--small" for="agendapunt-bewerk">
 		Titel agendapunt
 		{{textarea class="textarea textarea--block u-spacer--tiny" rows="4" value=(mut agendapunt.titel)}}
 	</label>
 
+	<label class="form__label form__label--block u-spacer--tiny">
+		Geplande openbaarheid
+	</label>
   <label class="radio">
     <input class="radio__toggle" type="radio" name="geslotenAgendapunt" checked={{not agendapunt.geplandOpenbaar}} onclick={{action "toggleGeplandOpenbaar"}} />
     <span></span>
-    <span>Besloten agendapunt</span>
+    <span>Gepland besloten agendapunt</span>
   </label>
   <label class="radio">
     <input class="radio__toggle" type="radio" name="openAgendapunt" checked={{agendapunt.geplandOpenbaar}} onclick={{action "toggleGeplandOpenbaar"}} />
     <span></span>
-    <span>Openbaar agendapunt</span>
+    <span>Gepland openbaar agendapunt</span>
   </label>
 
   {{#if createMode}}
