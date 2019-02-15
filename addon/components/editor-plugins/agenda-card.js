@@ -130,8 +130,9 @@ export default Component.extend({
     let html = `
        <div property="ext:behandelt" resource="http://data.lblod.info/id/behandelingen-van-agendapunten/${uuid()}" typeof="besluit:BehandelingVanAgendapunt">
          <span property="besluit:openbaar" datatype="xsd:boolean" content="true">
-           <i class="fa ${agendapunt.geplandOpenbaar?'fa-eye':'fa-eye-slash'}"></i></span>
-           <span property="dc:subject" resource="${agendapunt.uri}">
+           <i class="fa ${agendapunt.geplandOpenbaar?'fa-eye':'fa-eye-slash'}"></i>
+         </span>
+         <span property="dc:subject" resource="${agendapunt.uri}">
            <span>Agendapunt</span>
          </span>
          <br>
