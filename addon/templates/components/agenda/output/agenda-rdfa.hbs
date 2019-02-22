@@ -3,8 +3,8 @@
 {{/unless}}
 
 {{#each sortedAP as |agendapunt|}}
-  <span property="besluit:heeftAgendapunt" resource={{agendapunt.uri}} typeof="besluit:Agendapunt">
-    <meta property="besluit:aangebrachtNa" resource={{agendapunt.vorigeAgendapunt.0.uri}}>
+  <span property="besluit:behandelt" resource={{agendapunt.uri}} typeof="besluit:Agendapunt">
+    <span style="display:none;" property="besluit:aangebrachtNa" resource={{agendapunt.vorigeAgendapunt.0.uri}}>&nbsp;</span>
     <span property="besluit:geplandOpenbaar"
       datatype="xsd:boolean"
       content="{{agendapunt.geplandOpenbaar}}">

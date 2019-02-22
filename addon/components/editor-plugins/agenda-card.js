@@ -169,7 +169,7 @@ export default Component.extend({
       return;
     }
 
-    let html = `<meta property="besluit:gebeurtNa" resource="${previous.getAttribute('resource')}">`;
+    let html = `<span style="display:none;" property="besluit:gebeurtNa" resource="${previous.getAttribute('resource')}">&nbsp;</span>`;
     bvap.prepend(this.createElementsFromHTML(html)[0]);
   },
 
