@@ -12,9 +12,7 @@ import RdfaContextScanner from '@lblod/marawa/dist/rdfa-context-scanner';
  * Card displaying a hint of the Date plugin
  *  ASSUMPTIONS (to be checked)
  *  --------------------------
- *  - only one agenda to zitting
  *  - always a zitting
- *  - behandelingen van agendapunt linked to zitting! (through ext)
  * TODO
  * -----
  * - display agendapunt numbering

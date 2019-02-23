@@ -10,7 +10,6 @@ import { warn } from '@ember/debug';
  *
  *  ASSUMPTIONS (to be checked)
  *  --------------------------
- *  - only one agenda to zitting
  *  - no bestuursorgaan
  *
  * @module editor-agenda-plugin

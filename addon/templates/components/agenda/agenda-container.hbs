@@ -8,7 +8,7 @@
   {{#m.content isSectioned=true}}
     {{#unless editMode}}
       {{agenda/table/agendapunten-table agendapunten=agendapunten onEdit=(action "edit") onCreate=(action "create")}}
-		{{else}}
+    {{else}}
       {{agenda/agendapunt/edit-punt agendapunt=agendapuntToEdit
         agendapunten=agendapunten
         onRemove=(action "remove")
