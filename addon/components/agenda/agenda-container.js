@@ -65,6 +65,7 @@ export default Component.extend({
 
     remove(){
       this.agendapunten.removeObject(this.agendapuntToEditOrig);
+      this.setOrder();
       this.resetState();
     },
 
