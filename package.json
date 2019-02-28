@@ -1,6 +1,6 @@
 {
   "name": "@lblod/ember-rdfa-editor-agenda-plugin",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Manages agendas in lblod project",
   "keywords": [
     "ember-addon"
