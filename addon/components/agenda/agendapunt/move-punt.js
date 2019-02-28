@@ -1,13 +1,16 @@
 import Component from '@ember/component';
 import layout from '../../../templates/components/agenda/agendapunt/move-punt';
-import { A } from '@ember/array';
 import { task } from 'ember-concurrency';
 
 export default Component.extend({
   layout,
-  locationInAgenda: [{ index: 0, name: 'vooraan in agenda' },
-                     { index: -1, name: 'achteraan in agenda' },
-                     { index: 1, name: 'na agendapunt' } ],
+
+  init() {
+    this._super(...arguments);
+    this.locationInAgenda = this.locationInAgenda || [{ index: 0, name: 'vooraan in agenda' },
+                                                      { index: -1, name: 'achteraan in agenda' },
+                                                      { index: 1, name: 'na agendapunt' } ];
+  },
 
   hanldeMoveLocationAgendapunt(selected){
     if(selected.index == 1){

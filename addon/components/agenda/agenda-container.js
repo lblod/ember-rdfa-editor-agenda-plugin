@@ -2,7 +2,6 @@ import Component from '@ember/component';
 import layout from '../../templates/components/agenda/agenda-container';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency';
-import { getProperties } from '@ember/object';
 import EmberObject from '@ember/object';
 import { A } from '@ember/array';
 

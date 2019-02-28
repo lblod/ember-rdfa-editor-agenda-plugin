@@ -13,12 +13,12 @@
 		Geplande openbaarheid
 	</label>
   <label class="radio">
-    <input class="radio__toggle" type="radio" name="geslotenAgendapunt" checked={{not agendapunt.geplandOpenbaar}} onclick={{action "toggleGeplandOpenbaar"}} />
+    <input class="radio__toggle" type="radio" name="geslotenAgendapunt" checked={{not agendapunt.geplandOpenbaar}} onclick={{action "toggleGeplandOpenbaar"}}>
     <span></span>
     <span>Gepland besloten agendapunt</span>
   </label>
   <label class="radio">
-    <input class="radio__toggle" type="radio" name="openAgendapunt" checked={{agendapunt.geplandOpenbaar}} onclick={{action "toggleGeplandOpenbaar"}} />
+    <input class="radio__toggle" type="radio" name="openAgendapunt" checked={{agendapunt.geplandOpenbaar}} onclick={{action "toggleGeplandOpenbaar"}}>
     <span></span>
     <span>Gepland openbaar agendapunt</span>
   </label>
