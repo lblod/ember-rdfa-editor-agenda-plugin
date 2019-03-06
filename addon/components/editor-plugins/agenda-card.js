@@ -139,6 +139,9 @@ export default Component.extend({
          <div property="ext:insertAanwezigenText"><mark data-editor-highlight="true">Beheer aanwezigen bij agendapunt</mark></div>
          <br>
          <br>
+         <div property="ext:insertStemmingText">Beheer de stemmingen bij dit agendapunt</div>
+         <br>
+         <br>
          <div>Voeg sjabloon in</div>
          <br>
        </div>`;
