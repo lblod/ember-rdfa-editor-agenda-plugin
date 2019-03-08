@@ -126,17 +126,18 @@ export default Component.extend({
 
   createBvapDom(agendapunt){
     let html = `
-			<div property="ext:behandelt" resource="http://data.lblod.info/id/behandelingen-van-agendapunten/${uuid()}" typeof="besluit:BehandelingVanAgendapunt">
+      <div property="ext:behandelt" resource="http://data.lblod.info/id/behandelingen-van-agendapunten/${uuid()}" typeof="besluit:BehandelingVanAgendapunt">
 				<span property="dc:subject" resource="${agendapunt.uri}">Agendapunt -</span>&nbsp;
 				<span property="besluit:openbaar" datatype="xsd:boolean" content="${agendapunt.geplandOpenbaar}">
 					<i class="fa ${agendapunt.geplandOpenbaar?'fa-eye':'fa-eye-slash'}"></i>
 					<span>${agendapunt.geplandOpenbaar?'Openbare behandeling':'Besloten behandeling'}</span>
 				</span>
+				<p property=ext:behandelingVanAgendapuntTitel> ${agendapunt.titel} </p>
 				<br>
 				<br>
 				<h3 class="h6">Aanwezigen bij agendapunt</h3>
 				<br>
-				<div property="ext:insertAanwezigenText"><mark data-editor-highlight="true">Beheer aanwezigen bij agendapunt</mark></div>
+				<div property="ext:insertAanwezigenText">Beheer aanwezigen bij agendapunt</div>
 				<br>
 				<br>
 				<div property="ext:insertStemmingText">Beheer de stemmingen bij dit agendapunt</div>
@@ -144,7 +145,7 @@ export default Component.extend({
 				<br>
 				<div>Voeg sjabloon in</div>
 				<br>
-			</div>`;
+      </div>`;
     return this.createElementsFromHTML(html)[0];
   },
 
