@@ -133,6 +133,8 @@ export default Component.extend({
          <span property="dc:subject" resource="${agendapunt.uri}">
            <span>Agendapunt</span>
          </span>
+         <span property=ext:behandelingVanAgendapuntTitel> ${agendapunt.titel} </span>
+         <br>
          <br>
          <h3 class="h6">Aanwezigen bij agendapunt</h3>
          <br>
