@@ -5,17 +5,19 @@
 {{#each sortedAP as |agendapunt|}}
   <span property="besluit:behandelt" resource={{agendapunt.uri}} typeof="besluit:Agendapunt">
     <span style="display:none;" property="besluit:aangebrachtNa" resource={{agendapunt.vorigeAgendapunt.0.uri}}>&nbsp;</span>
+    <span property="dc:subject">Agendapunt -</span>&nbsp;
     <span property="besluit:geplandOpenbaar"
       datatype="xsd:boolean"
       content="{{agendapunt.geplandOpenbaar}}">
       {{#if agendapunt.geplandOpenbaar}}
-        <i class="fa fa-eye"></i>
+        <i class="fa fa-eye"></i><span>Gepland openbaar</span>
       {{else}}
-        <i class="fa fa-eye-slash"></i>
+        <i class="fa fa-eye-slash"></i><span>Gepland besloten</span>
       {{/if}}
     </span>
-    <span>Agendapunt </span> <span property="dc:title">
-      <span >{{agendapunt.titel}}</span>
-    </span>
+    <p property="dc:title">
+    	{{agendapunt.titel}}
+    </p>
   </span>
+  <br>
 {{/each}}

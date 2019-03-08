@@ -126,25 +126,25 @@ export default Component.extend({
 
   createBvapDom(agendapunt){
     let html = `
-       <div property="ext:behandelt" resource="http://data.lblod.info/id/behandelingen-van-agendapunten/${uuid()}" typeof="besluit:BehandelingVanAgendapunt">
-         <span property="besluit:openbaar" datatype="xsd:boolean" content="${agendapunt.geplandOpenbaar}">
-           <i class="fa ${agendapunt.geplandOpenbaar?'fa-eye':'fa-eye-slash'}"></i>
-         </span>
-         <span property="dc:subject" resource="${agendapunt.uri}">
-           <span>Agendapunt</span>
-         </span>
-         <br>
-         <h3 class="h6">Aanwezigen bij agendapunt</h3>
-         <br>
-         <div property="ext:insertAanwezigenText"><mark data-editor-highlight="true">Beheer aanwezigen bij agendapunt</mark></div>
-         <br>
-         <br>
-         <div property="ext:insertStemmingText">Beheer de stemmingen bij dit agendapunt</div>
-         <br>
-         <br>
-         <div>Voeg sjabloon in</div>
-         <br>
-       </div>`;
+			<div property="ext:behandelt" resource="http://data.lblod.info/id/behandelingen-van-agendapunten/${uuid()}" typeof="besluit:BehandelingVanAgendapunt">
+				<span property="dc:subject" resource="${agendapunt.uri}">Agendapunt -</span>&nbsp;
+				<span property="besluit:openbaar" datatype="xsd:boolean" content="${agendapunt.geplandOpenbaar}">
+					<i class="fa ${agendapunt.geplandOpenbaar?'fa-eye':'fa-eye-slash'}"></i>
+					<span>${agendapunt.geplandOpenbaar?'Openbare behandeling':'Besloten behandeling'}</span>
+				</span>
+				<br>
+				<br>
+				<h3 class="h6">Aanwezigen bij agendapunt</h3>
+				<br>
+				<div property="ext:insertAanwezigenText"><mark data-editor-highlight="true">Beheer aanwezigen bij agendapunt</mark></div>
+				<br>
+				<br>
+				<div property="ext:insertStemmingText">Beheer de stemmingen bij dit agendapunt</div>
+				<br>
+				<br>
+				<div>Voeg sjabloon in</div>
+				<br>
+			</div>`;
     return this.createElementsFromHTML(html)[0];
   },
 
