@@ -11,6 +11,10 @@ export default Component.extend({
       this.agendapunt.set('geplandOpenbaar', !this.agendapunt.geplandOpenbaar);
     },
 
+    toggleBvapOpenbaar(){
+      this.agendapunt.set('bvapOpenbaar', !this.agendapunt.bvapOpenbaar);
+    },
+
     remove(){
       this.onRemove(this.agendapunt);
     },

@@ -4,14 +4,14 @@
 
 <div class="u-padding--round--small">
 
-	<label class="form__label form__label--block u-spacer--small" for="agendapunt-bewerk">
-		Titel agendapunt
-		{{textarea class="textarea textarea--block u-spacer--tiny" rows="4" value=(mut agendapunt.titel)}}
-	</label>
+  <label class="form__label form__label--block u-spacer--small" for="agendapunt-bewerk">
+    Titel agendapunt
+    {{textarea class="textarea textarea--block u-spacer--tiny" rows="4" value=(mut agendapunt.titel)}}
+  </label>
 
-	<label class="form__label form__label--block u-spacer--tiny">
-		Geplande openbaarheid
-	</label>
+  <label class="form__label form__label--block u-spacer--tiny">
+    Geplande openbaarheid
+  </label>
   <label class="radio">
     <input class="radio__toggle" type="radio" name="geslotenAgendapunt" checked={{not agendapunt.geplandOpenbaar}} onclick={{action "toggleGeplandOpenbaar"}}>
     <span></span>
@@ -23,37 +23,51 @@
     <span>Gepland openbaar agendapunt</span>
   </label>
 
+  <label class="form__label form__label--block u-spacer--tiny">
+    Openbare of besloten behandeling
+  </label>
+  <label class="radio">
+    <input class="radio__toggle" type="radio" name="bvapBesloten" checked={{not agendapunt.bvapOpenbaar}} onclick={{action "toggleBvapOpenbaar"}}>
+    <span></span>
+    <span>Behandeling besloten</span>
+  </label>
+  <label class="radio">
+    <input class="radio__toggle" type="radio" name="bvapOpen" checked={{agendapunt.bvapOpenbaar}} onclick={{action "toggleBvapOpenbaar"}}>
+    <span></span>
+    <span>Behandeling openbaar</span>
+  </label>
+
   {{#if createMode}}
   <div class="grid grid--collapse">
-  	<div class="col--8-12 col--1-1--s">
-			<div class="u-padding--round--small u-background--gray-lightest u-spacer--tb--large">
-				<p class="u-spacer--tiny">Een agendapunt verplaatsen</p>
-		  	<p class="smaller">Klik onderaan eerst op <strong>Bewaar agendapunt</strong>. Vervolgens klikt u bij het te verplaatsen agendapunt <strong>Bewerk agendapunt</strong>. U kan nu het agendapunt verplaatsen bij <strong>Verplaats agendapunt</strong>.</p>
-		  </div>
-  	</div>
+    <div class="col--8-12 col--1-1--s">
+      <div class="u-padding--round--small u-background--gray-lightest u-spacer--tb--large">
+        <p class="u-spacer--tiny">Een agendapunt verplaatsen</p>
+        <p class="smaller">Klik onderaan eerst op <strong>Bewaar agendapunt</strong>. Vervolgens klikt u bij het te verplaatsen agendapunt <strong>Bewerk agendapunt</strong>. U kan nu het agendapunt verplaatsen bij <strong>Verplaats agendapunt</strong>.</p>
+      </div>
+    </div>
   </div>
 
   {{else}}  {{!-- disable this needs harder thinking brainfart at 4 am --}}
-		<div class="u-spacer--top--small">
-		  {{agenda/agendapunt/move-punt agendapunt=agendapunt agendapunten=agendapunten onUpdateLocation=(action "onUpdateLocation")}}
-		</div>
-	{{/if}}
+    <div class="u-spacer--top--small">
+      {{agenda/agendapunt/move-punt agendapunt=agendapunt agendapunten=agendapunten onUpdateLocation=(action "onUpdateLocation")}}
+    </div>
+  {{/if}}
 
-	{{#unless createMode}}
-	<div class="u-padding--round--small u-background--gray-lightest u-spacer--tb--large">
-	  <h3 class="h5 u-spacer--tiny">Verwijder agendapunt</h3>
-	  <p class="small u-spacer--small">
-	    <strong>U kan deze actie niet ongedaan maken.</strong> U verwijdert het agendapunt uit de agenda, en de volledige behandeling van het agendapunt.
+  {{#unless createMode}}
+  <div class="u-padding--round--small u-background--gray-lightest u-spacer--tb--large">
+    <h3 class="h5 u-spacer--tiny">Verwijder agendapunt</h3>
+    <p class="small u-spacer--small">
+      <strong>U kan deze actie niet ongedaan maken.</strong> U verwijdert het agendapunt uit de agenda, en de volledige behandeling van het agendapunt.
     </p>
 
     {{#unless isShowingWarning}}
     <div>
-	    {{#wu-button
-	       onClick=(action (mut isShowingWarning) true)
-	       class="button button--alt button--alt--warning button--narrow"}}
-	      Verwijder het agendapunt en de behandeling van het agendapunt
-	    {{/wu-button}}
-	  </div>
+      {{#wu-button
+         onClick=(action (mut isShowingWarning) true)
+         class="button button--alt button--alt--warning button--narrow"}}
+        Verwijder het agendapunt en de behandeling van het agendapunt
+      {{/wu-button}}
+    </div>
     {{/unless}}
 
     {{#if isShowingWarning}}
@@ -69,10 +83,10 @@
       </div>
 
       {{#wu-button
-	       onClick=(action (mut isShowingWarning) false)
-	       class="button button--alt button--narrow"}}
-	      Behoud agendapunt en behandeling
-	    {{/wu-button}}
+         onClick=(action (mut isShowingWarning) false)
+         class="button button--alt button--narrow"}}
+        Behoud agendapunt en behandeling
+      {{/wu-button}}
       <span></span>
       {{#wu-button
          onClick=(action "remove")
@@ -85,8 +99,8 @@
     </div>
     {{/if}}
 
-	</div>
-	{{/unless}}
+  </div>
+  {{/unless}}
 </div>
 
 {{yield}}

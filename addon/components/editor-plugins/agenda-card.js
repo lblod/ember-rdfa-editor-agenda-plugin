@@ -19,6 +19,20 @@ import RdfaContextScanner from '@lblod/marawa/dist/rdfa-context-scanner';
  * - fix variables where variables could be useful
  * - working on temp objects should be easier then cloning it
  * - onCreate user should set order immediatly...(disabled it because no time)
+ * - Code will break when there is an agendapunt with no behandling attached to it. (wich is possible in the model)
+ *
+ * SOME IMPLEMENTATION NOTES
+ * -------------------------
+ *  There is currently an asymmetry between how the behandelingen van agendapunt and agendapunten are managed by the code.
+ *   - Agendapunten is managed by Marawa. The domnode of agendapunten is provided to Marawa. We get triples in return.
+ *     These triples are serialized with the metamodel utils to ember objects which we can reason on.
+ *
+ *   - Behandelingen van agendpunten is manualy managed. Why? Merley because performance conisderations. If we'd provide the domnodes
+ *     of behandelingen of agendapunten to Marawa, the number of triples would explode and the browser would freeze.
+ *
+ *     This problem is a general problem which will most likely be tackled by having a fronted triples store we can query on.
+ *
+ *
  *
  *
  * @module editor-agenda-plugin
@@ -84,11 +98,24 @@ export default Component.extend({
       triples.forEach(t => t.object = typeof t.object == "string" && t.object.trim());
       let agendapunten = yield this.tripleSerialization.getAllResourcesForType('http://data.vlaanderen.be/ns/besluit#Agendapunt', triples, true);
       agendapunten.forEach(a => a.geplandOpenbaar = a.geplandOpenbaar == 'true' || a.geplandOpenbaar == true);
+
+      //Here an additional fake property to set bvapOpenbaar value
+      agendapunten.forEach(a => a.set('bvapOpenbaar', this.getBvapOpenbaarValue(a)));
       this.set('agendapunten', agendapunten);
     }
     else
       this.set('agendapunten', A([]));
   }),
+
+  getBvapOpenbaarValue(agendapunt){
+    let agendapuntUri = agendapunt.get('uri');
+    let bvaps = [ ...this.findbvapDomNodes() ];
+    let bvapDom = bvaps.find(bvap => bvap.querySelector("[property='dc:subject']").getAttribute('resource') == agendapuntUri);
+    if(!bvapDom) return false;
+    let openbaarDom = bvapDom.querySelector('[property="besluit:openbaar"]');
+    if(!openbaarDom) return false;
+    return openbaarDom.getAttribute('content') == 'true';
+  },
 
   createWrappingHTML(innerHTML, type = 'ext:agendapuntenTable'){
     //adds uuid to trigger diff. Do it both on top and down the table to make sure everything gets triggered properly
@@ -127,24 +154,24 @@ export default Component.extend({
   createBvapDom(agendapunt){
     let html = `
       <div property="ext:behandelt" resource="http://data.lblod.info/id/behandelingen-van-agendapunten/${uuid()}" typeof="besluit:BehandelingVanAgendapunt">
-				<span property="dc:subject" resource="${agendapunt.uri}">Agendapunt -</span>&nbsp;
-				<span property="besluit:openbaar" datatype="xsd:boolean" content="${agendapunt.geplandOpenbaar}">
-					<i class="fa ${agendapunt.geplandOpenbaar?'fa-eye':'fa-eye-slash'}"></i>
-					<span>${agendapunt.geplandOpenbaar?'Openbare behandeling':'Besloten behandeling'}</span>
-				</span>
-				<p property=ext:behandelingVanAgendapuntTitel> ${agendapunt.titel} </p>
-				<br>
-				<br>
-				<h3 class="h6">Aanwezigen bij agendapunt</h3>
-				<br>
-				<div property="ext:insertAanwezigenText">Beheer aanwezigen bij agendapunt</div>
-				<br>
-				<br>
-				<div property="ext:insertStemmingText">Beheer de stemmingen bij dit agendapunt</div>
-				<br>
-				<br>
-				<div>Voeg sjabloon in</div>
-				<br>
+        <span property="dc:subject" resource="${agendapunt.uri}">Agendapunt -</span>&nbsp;
+        <span property="besluit:openbaar" datatype="xsd:boolean" content="${agendapunt.bvapOpenbaar}">
+          <i class="fa ${agendapunt.bvapOpenbaar?'fa-eye':'fa-eye-slash'}"></i>
+          <span>${agendapunt.bvapOpenbaar?'Openbare behandeling':'Besloten behandeling'}</span>
+        </span>
+        <p property=ext:behandelingVanAgendapuntTitel> ${agendapunt.titel} </p>
+        <br>
+        <br>
+        <h3 class="h6">Aanwezigen bij agendapunt</h3>
+        <br>
+        <div property="ext:insertAanwezigenText">Beheer aanwezigen bij agendapunt</div>
+        <br>
+        <br>
+        <div property="ext:insertStemmingText">Beheer de stemmingen bij dit agendapunt</div>
+        <br>
+        <br>
+        <div>Voeg sjabloon in</div>
+        <br>
       </div>`;
     return this.createElementsFromHTML(html)[0];
   },
@@ -175,6 +202,16 @@ export default Component.extend({
     bvap.prepend(this.createElementsFromHTML(html)[0]);
   },
 
+  updateOpenbaarBvap(bvapDom, openbaar){
+    let openbaarDom = bvapDom.querySelector('[property="besluit:openbaar"]');
+    if(!openbaarDom) return;
+    openbaarDom.setAttribute('content', openbaar);
+    openbaarDom.innerHTML = `
+          <i class="fa ${openbaar ?'fa-eye':'fa-eye-slash'}"></i>
+          <span>${openbaar ?'Openbare behandeling':'Besloten behandeling'}</span>
+    `;
+  },
+
   insertBvaps(){
     let bvaps = [ ...this.findbvapDomNodes() ];
     let bvapsMap = {};
@@ -183,12 +220,16 @@ export default Component.extend({
     //clean up
     bvaps.forEach(ap => ap.remove());
 
-    //first set order of bvaps
+    //set order of bvaps + update openbaar of bvap
     let newBvaps = [];
     this.agendapunten.forEach(ap => {
-      if(bvapsMap[ap.uri]){
-        newBvaps.push(bvapsMap[ap.uri]);
+      let bvapDom = bvapsMap[ap.uri];
+
+      if(bvapDom){
+        this.updateOpenbaarBvap(bvapDom, ap.bvapOpenbaar);
+        newBvaps.push(bvapDom);
       }
+
       else{
         newBvaps.push(this.createBvapDom(ap));
       }

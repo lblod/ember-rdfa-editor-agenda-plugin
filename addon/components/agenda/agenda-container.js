@@ -36,6 +36,7 @@ export default Component.extend({
     let typeUri = (yield this.metaModelQuery.getMetaModelForLabel('agendapunt')).get('rdfaType');
     let agendapunt = yield this.tripleSerialization.createEmptyResource(typeUri, true);
     agendapunt.set('geplandOpenbaar', false);
+    agendapunt.set('bvapOpenbaar', false);
     this.set('agendapuntToEdit', this.copy(agendapunt));
     this.set('agendapuntToEditOrig', agendapunt);
     this.set('createMode', true);
