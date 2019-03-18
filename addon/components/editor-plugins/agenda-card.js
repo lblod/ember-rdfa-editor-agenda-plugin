@@ -159,13 +159,15 @@ export default Component.extend({
           <i class="fa ${agendapunt.bvapOpenbaar?'fa-eye':'fa-eye-slash'}"></i>
           <span>${agendapunt.bvapOpenbaar?'Openbare behandeling':'Besloten behandeling'}</span>
         </span>
-        <p property=ext:behandelingVanAgendapuntTitel> ${agendapunt.titel} </p>
+        <h3 property=ext:behandelingVanAgendapuntTitel class="h4"> ${agendapunt.titel} </h3>
         <br>
         <br>
-        <h3 class="h6">Aanwezigen bij agendapunt</h3>
+        <h4 class="h6">Aanwezigen bij agendapunt</h4>
         <br>
         <div property="ext:insertAanwezigenText">Beheer aanwezigen bij agendapunt</div>
         <br>
+        <br>
+        <h4 class="h6">Stemmingen bij agendapunt</h4>
         <br>
         <div property="ext:insertStemmingText">Beheer de stemmingen bij dit agendapunt</div>
         <br>
