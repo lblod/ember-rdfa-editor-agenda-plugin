@@ -12,35 +12,39 @@
   <label class="form__label form__label--block u-spacer--tiny">
     Geplande openbaarheid
   </label>
-  <label class="radio">
-    <input class="radio__toggle" type="radio" name="geslotenAgendapunt" checked={{not agendapunt.geplandOpenbaar}} onclick={{action "toggleGeplandOpenbaar"}}>
-    <span></span>
-    <span>Gepland besloten agendapunt</span>
-  </label>
-  <label class="radio">
-    <input class="radio__toggle" type="radio" name="openAgendapunt" checked={{agendapunt.geplandOpenbaar}} onclick={{action "toggleGeplandOpenbaar"}}>
-    <span></span>
-    <span>Gepland openbaar agendapunt</span>
-  </label>
+  <div class="u-spacer--small">
+	  <label class="radio">
+	    <input class="radio__toggle" type="radio" name="geslotenAgendapunt" checked={{not agendapunt.geplandOpenbaar}} onclick={{action "toggleGeplandOpenbaar"}}>
+	    <span></span>
+	    <span>Gepland besloten agendapunt</span>
+	  </label>
+	  <label class="radio">
+	    <input class="radio__toggle" type="radio" name="openAgendapunt" checked={{agendapunt.geplandOpenbaar}} onclick={{action "toggleGeplandOpenbaar"}}>
+	    <span></span>
+	    <span>Gepland openbaar agendapunt</span>
+	  </label>
+	</div>
 
   <label class="form__label form__label--block u-spacer--tiny">
     Openbare of besloten behandeling
   </label>
-  <label class="radio">
-    <input class="radio__toggle" type="radio" name="bvapBesloten" checked={{not agendapunt.bvapOpenbaar}} onclick={{action "toggleBvapOpenbaar"}}>
-    <span></span>
-    <span>Behandeling besloten</span>
-  </label>
-  <label class="radio">
-    <input class="radio__toggle" type="radio" name="bvapOpen" checked={{agendapunt.bvapOpenbaar}} onclick={{action "toggleBvapOpenbaar"}}>
-    <span></span>
-    <span>Behandeling openbaar</span>
-  </label>
+  <div class="u-spacer--small">
+	  <label class="radio">
+	    <input class="radio__toggle" type="radio" name="bvapBesloten" checked={{not agendapunt.bvapOpenbaar}} onclick={{action "toggleBvapOpenbaar"}}>
+	    <span></span>
+	    <span>Besloten behandeling</span>
+	  </label>
+	  <label class="radio">
+	    <input class="radio__toggle" type="radio" name="bvapOpen" checked={{agendapunt.bvapOpenbaar}} onclick={{action "toggleBvapOpenbaar"}}>
+	    <span></span>
+	    <span>Openbare behandeling</span>
+	  </label>
+	</div>
 
   {{#if createMode}}
   <div class="grid grid--collapse">
     <div class="col--8-12 col--1-1--s">
-      <div class="u-padding--round--small u-background--gray-lightest u-spacer--tb--large">
+      <div class="u-padding--round--small u-background--gray-lightest u-spacer--tb">
         <p class="u-spacer--tiny">Een agendapunt verplaatsen</p>
         <p class="smaller">Klik onderaan eerst op <strong>Bewaar agendapunt</strong>. Vervolgens klikt u bij het te verplaatsen agendapunt <strong>Bewerk agendapunt</strong>. U kan nu het agendapunt verplaatsen bij <strong>Verplaats agendapunt</strong>.</p>
       </div>
