@@ -21,14 +21,10 @@
         </th>
       </tr>
     </thead>
-    <tbody>
-    	{{#unless agendapunten}}
-    		<tr>
-    			<td colspan="3">Geen agendapunten gevonden.</td>
-    		</tr>
-    	{{/unless}}
+
+    {{#sortable-objects tagName="tbody" sortableObjectList=agendapunten enableSort=true useSwap=true inPlace=true}}
       {{#each agendapunten as |agendapunt|}}
-        <tr>
+        {{#draggable-object tagName="tr" content=agendapunt isSortable=true}}
           {{!--  <td class="u-align-right">1</td> --}}
           <td>
             <p>{{agendapunt.titel}}</p>
@@ -50,12 +46,19 @@
                  onClick=(action 'edit' agendapunt)}}
                 <i class="vi vi-edit"></i> Bewerk agendapunt
               {{/wu-button}}
+              <span style="cursor:pointer">&varr;</span>
             {{/wu-button-group}}
           </td>
-        </tr>
+        {{/draggable-object}}
+                  {{else}}
+    		<tr>
+    			<td colspan="3">Geen agendapunten gevonden.</td>
+    		</tr>
+
       {{/each}}
-    </tbody>
+    {{/sortable-objects}}
   </table>
+
 </div>
 
 {{yield}}

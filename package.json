@@ -29,7 +29,8 @@
     "ember-cli-htmlbars": "^3.0.0",
     "ember-power-select": "^2.0.12",
     "ember-truth-helpers": "^2.1.0",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "ember-drag-drop": "^0.6.3"
   },
   "devDependencies": {
     "@ember/optional-features": "^0.6.3",
