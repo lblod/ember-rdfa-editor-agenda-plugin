@@ -67,7 +67,7 @@
     {{#unless isShowingWarning}}
     <div>
       {{#wu-button
-         onClick=(action (mut isShowingWarning) true)
+         onClick=(action "showWarning" true)
          class="button button--alt button--alt--warning button--narrow"}}
         Verwijder het agendapunt en de behandeling van het agendapunt
       {{/wu-button}}
@@ -76,7 +76,7 @@
 
     {{#if isShowingWarning}}
     <div class="u-hr u-spacer"></div>
-    <div class="u-spacer--top--tiny">
+    <div class="u-spacer--top--tiny" id="isShowingWarning-verwijder-agendapunt">
       <div class="u-spacer">
         <p class="small"><strong>Bent u zeker dat u het agendapunt en de behandeling wil verwijderen?</strong></p>
         <label class="checkbox checkbox--block">

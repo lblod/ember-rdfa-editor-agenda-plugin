@@ -1,5 +1,6 @@
 import Component from '@ember/component';
 import layout from '../../../templates/components/agenda/agendapunt/edit-punt';
+import { next } from '@ember/runloop';
 
 export default Component.extend({
   layout,
@@ -21,6 +22,14 @@ export default Component.extend({
 
     onUpdateLocation(newIndex){
       this.onUpdateLocation(newIndex);
+    },
+
+    showWarning(){
+    	this.set("isShowingWarning", true);
+    	next(this, () => {
+	    	var element = document.getElementById("isShowingWarning-verwijder-agendapunt");
+	    	element.scrollIntoView({behavior: "smooth", block: "end"})
+    	});
     }
   }
 });
