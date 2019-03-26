@@ -154,12 +154,12 @@ export default Component.extend({
   createBvapDom(agendapunt){
     let html = `
       <div property="ext:behandelt" resource="http://data.lblod.info/id/behandelingen-van-agendapunten/${uuid()}" typeof="besluit:BehandelingVanAgendapunt">
-        <span property="dc:subject" resource="${agendapunt.uri}">Agendapunt -</span>&nbsp;
+        <span>Agendapunt -</span>&nbsp;
         <span property="besluit:openbaar" datatype="xsd:boolean" content="${agendapunt.bvapOpenbaar}">
           <i class="fa ${agendapunt.bvapOpenbaar?'fa-eye':'fa-eye-slash'}"></i>
           <span>${agendapunt.bvapOpenbaar?'Openbare behandeling':'Besloten behandeling'}</span>
         </span>
-        <h3 property=ext:behandelingVanAgendapuntTitel class="h4"> ${agendapunt.titel} </h3>
+        <h3 property="dc:subject" resource="${agendapunt.uri}" class="h4"> ${agendapunt.titel} </h3>
         <br>
         <br>
         <h4 class="h6">Aanwezigen bij agendapunt</h4>
@@ -223,6 +223,7 @@ export default Component.extend({
     bvaps.forEach(ap => ap.remove());
 
     //set order of bvaps + update openbaar of bvap
+    // TODO dc:subject of bvap also needs to be updated
     let newBvaps = [];
     this.agendapunten.forEach(ap => {
       let bvapDom = bvapsMap[ap.uri];

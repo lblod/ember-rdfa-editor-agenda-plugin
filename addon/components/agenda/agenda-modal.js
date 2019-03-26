@@ -78,7 +78,7 @@ export default Component.extend({
         this.agendapunten.popObject();
       } else {
         const originalPosition = this.selectedAgendapuntOriginal.position;
-        this.agendapunten.insertAt(originalPosition, this.selectedAgendapuntOriginal);
+        this.agendapunten.replace(originalPosition, 1, [this.selectedAgendapuntOriginal]);
       }
 
       this.disableEditMode();
