@@ -21,7 +21,7 @@ const RdfaEditorAgendaPlugin = Service.extend({
   agendapuntenTable: 'http://mu.semte.ch/vocabularies/ext/agendapuntenTable',
 
   /**
-   * Restartable task to handle the incoming events from the editor dispatcher
+   * Task to handle the incoming events from the editor dispatcher
    *
    * @method execute
    *
@@ -33,7 +33,7 @@ const RdfaEditorAgendaPlugin = Service.extend({
    * @public
    */
   execute: task(function * (hrId, contexts, hintsRegistry, editor) {
-    if (contexts.length === 0) return [];
+    if (contexts.length === 0) return;
 
     const hints = [];
 
@@ -64,7 +64,6 @@ const RdfaEditorAgendaPlugin = Service.extend({
     if(cards.length > 0){
       hintsRegistry.addHints(hrId, this.who, cards);
     }
-
   }),
 
   /**
@@ -175,7 +174,7 @@ const RdfaEditorAgendaPlugin = Service.extend({
   },
 
   domNodeMatchesRdfaInstructive(instructiveRdfa){
-    let ext = 'http://mu.semte.ch/vocabularies/ext/';
+    const ext = 'http://mu.semte.ch/vocabularies/ext/';
     return (domNode) => {
       if(!domNode.attributes || !domNode.attributes.property)
         return false;
@@ -187,12 +186,12 @@ const RdfaEditorAgendaPlugin = Service.extend({
   },
 
   findDomNodeForContext(editor, context, condition){
-    let richNodes = isArray(context.richNode) ? context.richNode : [ context.richNode ];
-    let domNode = richNodes
+    const richNodes = isArray(context.richNode) ? context.richNode : [ context.richNode ];
+    const domNode = richNodes
           .map(r => this.ascendDomNodesUntil(editor.rootNode, r.domNode, condition))
           .find(d => d);
     if(!domNode){
-      warn(`Trying to work on unattached domNode. Sorry can't handle these...`, {id: 'comiteAanstelling.domNode'});
+      warn(`Trying to work on unattached domNode. Sorry can't handle these...`, {id: 'agendaPlugin.domNode'});
     }
     return domNode;
   }

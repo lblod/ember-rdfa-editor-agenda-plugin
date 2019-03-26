@@ -1,0 +1,63 @@
+<div class="u-padding--round--small u-background--gray-lightest">
+  <h2 class="h5">Bewerk agendapunt</h2>
+</div>
+
+<div class="u-padding--round--small">
+
+  <label class="form__label form__label--block u-spacer--small" for="agendapunt-bewerk">
+    Titel agendapunt
+    {{textarea
+        class="textarea textarea--block u-spacer--tiny"
+        rows="4"
+        value=(mut agendapunt.titel)
+    }}
+  </label>
+
+  <label class="form__label form__label--block u-spacer--tiny">
+    Geplande openbaarheid
+  </label>
+  <div class="u-spacer--small">
+	  <label class="radio">
+	    <input class="radio__toggle" type="radio" name="geslotenAgendapunt" checked={{not agendapunt.geplandOpenbaar}} onclick={{action "toggleGeplandOpenbaar"}}>
+	    <span></span>
+	    <span>Gepland besloten agendapunt</span>
+	  </label>
+	  <label class="radio">
+	    <input class="radio__toggle" type="radio" name="openAgendapunt" checked={{agendapunt.geplandOpenbaar}} onclick={{action "toggleGeplandOpenbaar"}}>
+	    <span></span>
+	    <span>Gepland openbaar agendapunt</span>
+	  </label>
+	</div>
+
+  <label class="form__label form__label--block u-spacer--tiny">
+    Openbare of besloten behandeling
+  </label>
+  <div class="u-spacer--small">
+	  <label class="radio">
+	    <input class="radio__toggle" type="radio" name="bvapBesloten" checked={{not agendapunt.bvapOpenbaar}} onclick={{action "toggleBvapOpenbaar"}}>
+	    <span></span>
+	    <span>Besloten behandeling</span>
+	  </label>
+	  <label class="radio">
+	    <input class="radio__toggle" type="radio" name="bvapOpen" checked={{agendapunt.bvapOpenbaar}} onclick={{action "toggleBvapOpenbaar"}}>
+	    <span></span>
+	    <span>Openbare behandeling</span>
+	  </label>
+	</div>
+
+  {{#if hasMultipleAgendapunten}}
+    <div class="u-spacer--top--small">
+      {{agenda/agendapunt-move
+          agendapunt=agendapunt
+          agendapunten=agendapunten
+      }}
+    </div>
+  {{/if}}
+
+  {{#unless agendapunt.isCreationMode}}
+    {{agenda/agendapunt-remove
+        agendapunt=agendapunt
+        remove=remove
+    }}
+  {{/unless}}
+</div>

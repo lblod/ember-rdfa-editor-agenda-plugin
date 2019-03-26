@@ -9,16 +9,16 @@ import { inject as service } from '@ember/service';
 import RdfaContextScanner from '@lblod/marawa/dist/rdfa-context-scanner';
 
 /**
- * Card displaying a hint of the Date plugin
+ * Card displaying a hint of the Agenda plugin
  *  ASSUMPTIONS (to be checked)
  *  --------------------------
  *  - always a zitting
+ *
  * TODO
  * -----
  * - display agendapunt numbering
  * - fix variables where variables could be useful
  * - working on temp objects should be easier then cloning it
- * - onCreate user should set order immediatly...(disabled it because no time)
  * - Code will break when there is an agendapunt with no behandling attached to it. (wich is possible in the model)
  *
  * SOME IMPLEMENTATION NOTES
@@ -246,15 +246,15 @@ export default Component.extend({
   },
 
   actions: {
-    insert(){
+    insert() {
       const html = this.createWrappingHTML(document.getElementById(this.outputAgendapuntenId).innerHTML);
       this.hintsRegistry.removeHintsAtLocation(this.location, this.hrId, this.info.who);
       this.get('editor').replaceNodeWithHTML(this.getDomNodeToUpdate(this.info.domReference.value), html);
       this.get('editor').replaceNodeWithHTML(this.findBvapContainer(), this.insertBvaps());
     },
-
-    togglePopup(){
-      this.toggleProperty('popup');
+    cancel() {
+      this.loadData.perform(); // reset modal state by loading data from document again
+      this.set('popup', false);
     }
   }
 });

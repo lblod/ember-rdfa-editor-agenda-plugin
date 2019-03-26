@@ -20,7 +20,7 @@
       {{wu-button
         label="Beheer agenda"
         isNarrow=true
-        onClick=(action "togglePopup")
+        onClick=(action (mut popup) true)
       }}
     {{/wu-button-group}}
   {{/if}}
@@ -28,6 +28,6 @@
 
 
 {{#if popup}}
-  {{agenda/agenda-container onInsert=(action "insert") onCancel=(action "togglePopup") agendapunten=agendapunten}}
+  {{agenda/agenda-modal insert=(action "insert") cancel=(action "cancel") agendapunten=agendapunten}}
   {{agenda/output/agenda-rdfa id=outputAgendapuntenId agendapunten=agendapunten}}
 {{/if}}

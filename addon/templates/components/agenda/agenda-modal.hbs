@@ -1,0 +1,36 @@
+{{#wu-modal
+     title="Beheer Agenda"
+     dialog-class="modal-dialog--wide modal-dialog--sectioned"
+     onClose=cancel
+     as |m|
+}}
+  {{#m.content isSectioned=true}}
+    {{#if editMode}}
+      {{agenda/agendapunt-edit
+          agendapunt=selectedAgendapunt
+          agendapunten=agendapunten
+          remove=(action "removeAgendapunt")
+      }}
+    {{else}}
+      {{agenda/agendapunten-list
+          agendapunten=agendapunten
+          create=(perform createAgendapunt)
+          edit=(action "editAgendapunt")
+      }}
+    {{/if}}
+  {{/m.content}}
+
+  <div class="modal-dialog__footer">
+    {{#if editMode}}
+      {{#wu-button-group}}
+        {{wu-button label="Bewaar agendapunt" class="button button--narrow" onClick=(action "saveAgendapunt")}}
+        {{wu-button label="Annuleer" class="button button--alt button--narrow" onClick=(action "cancelEditAgendapunt")}}
+      {{/wu-button-group}}
+    {{else}}
+      {{#wu-button-group}}
+        {{wu-button label="Voeg agenda in" class="button button--narrow" onClick=(action "insertAgenda")}}
+        {{wu-button label="Annuleer" class="button button--alt button--narrow" onClick=(action cancel)}}
+      {{/wu-button-group}}
+    {{/if}}
+  </div>
+{{/wu-modal}}
