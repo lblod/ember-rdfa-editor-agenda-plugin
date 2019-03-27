@@ -3,7 +3,8 @@
     <thead>
       <tr>
         {{!-- <th class="u-align-right" style="max-width: 4rem;">Orde</th> --}}
-        <th style="width: 600px;">Titel agendapunt</th>
+        <th>Volgorde</th>
+        <th style="width: 400px;">Titel agendapunt</th>
         <th>Geplande openbaarheid</th>
         <th>Openbaarheid behandeling</th>
         <th>
@@ -28,6 +29,17 @@
         {{#draggable-object tagName="tr" content=agendapunt isSortable=true}}
           {{!--  <td class="u-align-right">1</td> --}}
           <td>
+            {{#wu-link-button
+            	isTiny=true
+            	isLink=true
+            	isNarrow=true
+            	onClick=null}}
+              <span style="cursor:pointer">
+              	<i class="vi vi-up-down-arrows"></i>
+              </span>
+             {{/wu-link-button}}
+          </td>
+          <td>
             <p>{{agendapunt.titel}}</p>
           </td>
           <td>
@@ -39,21 +51,27 @@
           <td>
             {{#wu-button-group}}
               {{#wu-button
-                   class="button delete-me-switch-move-agendapunt"
-                   size="small"
-                   isAlt=true
-                   isNarrow=true
-                   label="Bewerk"
-                   onClick=(action edit agendapunt)}}
+								isSmall=true
+								isAlt=true
+								isNarrow=true
+								label="Bewerk"
+								onClick=(action edit agendapunt)}}
                 <i class="vi vi-edit"></i> Bewerk agendapunt
               {{/wu-button}}
-              <span style="cursor:pointer">&varr;</span>
             {{/wu-button-group}}
           </td>
         {{/draggable-object}}
       {{else}}
         <tr>
-          <td colspan="3">Geen agendapunten gevonden.</td>
+          <td colspan="5">Geen agendapunten gevonden.
+              {{#wu-button
+								isSmall=true
+								isNarrow=true
+								isLink=true
+								onClick=(action create)}}
+								Voeg agendapunt toe
+              {{/wu-button}}
+            </td>
         </tr>
       {{/each}}
     {{/sortable-objects}}
