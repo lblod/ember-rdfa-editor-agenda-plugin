@@ -1,6 +1,6 @@
 {
   "name": "@lblod/ember-rdfa-editor-agenda-plugin",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Plugin responsible to manage the agenda and behandeling van agendapunt for a zitting",
   "keywords": [
     "ember-addon"
@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@lblod/ember-rdfa-editor-generic-model-plugin-utils": "^0.2.3",
-    "@lblod/ember-vo-webuniversum": "^0.19.12",
+    "@lblod/ember-vo-webuniversum": "^0.19.14",
     "@lblod/marawa": "0.0.8",
     "ember-auto-import": "^1.2.19",
     "ember-cli-babel": "^7.1.2",
