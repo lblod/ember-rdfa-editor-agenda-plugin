@@ -20,9 +20,9 @@ export default Component.extend({
     this._super(...arguments);
     this.set('agendapunten', this.agendapunten || A());
     this.locationOptions = [
-      { code: 'start', name: 'vooraan in agenda' },
-      { code: 'after', name: 'na agendapunt' },
-      { code: 'end', name: 'achteraan in agenda' }
+      { code: 'start', name: 'Vooraan in agenda' },
+      { code: 'after', name: 'Na agendapunt' },
+      { code: 'end', name: 'Achteraan in agenda' }
     ];
   },
 
