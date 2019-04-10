@@ -154,10 +154,9 @@ export default Component.extend({
   createBvapDom(agendapunt){
     let html = `
       <div property="ext:behandelt" resource="http://data.lblod.info/id/behandelingen-van-agendapunten/${uuid()}" typeof="besluit:BehandelingVanAgendapunt">
-        <span>Agendapunt -</span>&nbsp;
         <span property="besluit:openbaar" datatype="xsd:boolean" content="${agendapunt.bvapOpenbaar}">
           <i class="fa ${agendapunt.bvapOpenbaar?'fa-eye':'fa-eye-slash'}"></i>
-          <span>${agendapunt.bvapOpenbaar?'Openbare behandeling':'Besloten behandeling'}</span>
+          <span>${agendapunt.bvapOpenbaar?'Openbare behandeling van agendapunt':'Besloten behandeling van agendapunt'}</span>
         </span>
         <h3 property="dc:subject" resource="${agendapunt.uri}" class="h4"> ${agendapunt.titel} </h3>
         <br>
