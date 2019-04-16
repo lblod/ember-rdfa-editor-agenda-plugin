@@ -6,6 +6,7 @@
            renderInPlace=true
            placeholder="Achteraan in agenda"
            options=locationOptions
+           verticalPosition="above"
            searchEnabled=false
            selected=selectedLocation
            allowClear=true
@@ -22,10 +23,12 @@
              renderInPlace=true
              placeholder="Selecteer agendapunt"
              searchPlaceholder="Zoek op titel"
+             verticalPosition="above"
              options=afterAgendapuntOptions
              searchField="titel"
              selected=selectedAfterAgendapunt
              onchange=(action "selectAfterAgendapunt")
+             verticalPosition="above"
              as |a|}}
           {{a.titel}}
         {{/power-select}}
