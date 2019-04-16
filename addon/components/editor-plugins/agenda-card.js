@@ -171,7 +171,7 @@ export default Component.extend({
         <div property="ext:insertStemmingText">Beheer de stemmingen bij dit agendapunt</div>
         <br>
         <br>
-        <div>Voeg besluitsjabloon in</div>
+        <div>Voeg sjabloon in voor besluit of vrij tekstveld (bijvoorbeeld voor een vraag, antwoord of tussenkomst)</div>
         <br>
       </div>`;
     return this.createElementsFromHTML(html)[0];
