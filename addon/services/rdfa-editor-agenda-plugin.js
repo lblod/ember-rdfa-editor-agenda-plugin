@@ -186,8 +186,7 @@ const RdfaEditorAgendaPlugin = Service.extend({
   },
 
   findDomNodeForContext(editor, context, condition){
-    const richNodes = isArray(context.richNode) ? context.richNode : [ context.richNode ];
-    const domNode = richNodes
+    const domNode = context.richNodes
           .map(r => this.ascendDomNodesUntil(editor.rootNode, r.domNode, condition))
           .find(d => d);
     if(!domNode){
