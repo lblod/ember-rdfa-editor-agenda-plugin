@@ -87,7 +87,7 @@ export default Component.extend({
   serializeTableToTriples(table){
     const contextScanner = new RdfaContextScanner();
     const contexts = contextScanner.analyse(table, []).map((c) => c.context);
-    return Array.concat(...contexts);
+    return [].concat.apply([], contexts);
   },
 
   loadData: task(function *(){
