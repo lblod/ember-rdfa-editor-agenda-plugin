@@ -6,7 +6,7 @@ import { A } from '@ember/array';
 import uuid from 'uuid/v4';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import RdfaContextScanner from '@lblod/marawa/dist/rdfa-context-scanner';
+import RdfaContextScanner from '@lblod/marawa/rdfa-context-scanner';
 
 /**
  * Card displaying a hint of the Agenda plugin

@@ -35,7 +35,7 @@ export default Component.extend({
       this.set('selectedAgendapuntOriginal', copiedAgendapunt);
       this.agendapunten.pushObject(agendapunt);
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   }),
 
