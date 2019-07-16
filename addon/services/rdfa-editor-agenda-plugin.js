@@ -1,7 +1,6 @@
 import Service from '@ember/service';
 import EmberObject from '@ember/object';
 import { task } from 'ember-concurrency';
-import { isArray } from '@ember/array';
 import { warn } from '@ember/debug';
 
 /**
