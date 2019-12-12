@@ -7,9 +7,18 @@
   <label class="form__label form__label--block u-spacer--small" for="agendapunt-bewerk">
     Titel agendapunt
     {{textarea
-        class="textarea textarea--block u-spacer--tiny"
-        rows="4"
-        value=(mut agendapunt.titel)
+      class="textarea textarea--block u-spacer--tiny"
+      rows="4"
+      value=(mut agendapunt.titel)
+    }}
+  </label>
+
+  <label class="form__label form__label--block u-spacer--small" for="agendapunt-bewerk">
+    Beschrijving agendapunt
+    {{textarea
+      class="textarea textarea--block u-spacer--tiny"
+      rows="4"
+      value=(mut agendapunt.beschrijving)
     }}
   </label>
 
@@ -17,33 +26,33 @@
     Geplande openbaarheid
   </label>
   <div class="u-spacer--small">
-	  <label class="radio">
-	    <input class="radio__toggle" type="radio" name="geslotenAgendapunt" checked={{not agendapunt.geplandOpenbaar}} onclick={{action "toggleGeplandOpenbaar"}}>
-	    <span></span>
-	    <span>Gepland besloten agendapunt</span>
-	  </label>
-	  <label class="radio">
-	    <input class="radio__toggle" type="radio" name="openAgendapunt" checked={{agendapunt.geplandOpenbaar}} onclick={{action "toggleGeplandOpenbaar"}}>
-	    <span></span>
-	    <span>Gepland openbaar agendapunt</span>
-	  </label>
-	</div>
+    <label class="radio">
+      <input class="radio__toggle" type="radio" name="geslotenAgendapunt" checked={{not agendapunt.geplandOpenbaar}} onclick={{action "toggleGeplandOpenbaar"}}>
+      <span></span>
+      <span>Gepland besloten agendapunt</span>
+    </label>
+    <label class="radio">
+      <input class="radio__toggle" type="radio" name="openAgendapunt" checked={{agendapunt.geplandOpenbaar}} onclick={{action "toggleGeplandOpenbaar"}}>
+      <span></span>
+      <span>Gepland openbaar agendapunt</span>
+    </label>
+  </div>
 
   <label class="form__label form__label--block u-spacer--tiny">
     Openbare of besloten behandeling
   </label>
   <div class="u-spacer--small">
-	  <label class="radio">
-	    <input class="radio__toggle" type="radio" name="bvapBesloten" checked={{not agendapunt.bvapOpenbaar}} onclick={{action "toggleBvapOpenbaar"}}>
-	    <span></span>
-	    <span>Besloten behandeling</span>
-	  </label>
-	  <label class="radio">
-	    <input class="radio__toggle" type="radio" name="bvapOpen" checked={{agendapunt.bvapOpenbaar}} onclick={{action "toggleBvapOpenbaar"}}>
-	    <span></span>
-	    <span>Openbare behandeling</span>
-	  </label>
-	</div>
+    <label class="radio">
+      <input class="radio__toggle" type="radio" name="bvapBesloten" checked={{not agendapunt.bvapOpenbaar}} onclick={{action "toggleBvapOpenbaar"}}>
+      <span></span>
+      <span>Besloten behandeling</span>
+    </label>
+    <label class="radio">
+      <input class="radio__toggle" type="radio" name="bvapOpen" checked={{agendapunt.bvapOpenbaar}} onclick={{action "toggleBvapOpenbaar"}}>
+      <span></span>
+      <span>Openbare behandeling</span>
+    </label>
+  </div>
 
   {{#if hasMultipleAgendapunten}}
     <div class="u-spacer--top--small">
@@ -53,12 +62,12 @@
       }}
     </div>
     {{#if agendapunt.isCreationMode}}
-	    <div class="grid">
-	    	<div class="col--6-12 col--10-12--m col--12-12--s">
-	  			<p class="smaller u-spacer--top--tiny u-spacer--bottom--large">Nieuwe agendapunten worden automatisch achteraan in de agenda toegevoegd indien dit veld leeg blijft.</p>
-	  		</div>
-	  	</div>
-	  {{/if}}
+      <div class="grid">
+        <div class="col--6-12 col--10-12--m col--12-12--s">
+          <p class="smaller u-spacer--top--tiny u-spacer--bottom--large">Nieuwe agendapunten worden automatisch achteraan in de agenda toegevoegd indien dit veld leeg blijft.</p>
+        </div>
+      </div>
+    {{/if}}
   {{/if}}
 
   {{#unless agendapunt.isCreationMode}}
