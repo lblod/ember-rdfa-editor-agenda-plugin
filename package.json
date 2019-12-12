@@ -25,8 +25,8 @@
   },
   "peerDependencies": {
     "@lblod/ember-vo-webuniversum": "^0.22.1",
-    "@lblod/marawa": "^0.4.1",
-    "ember-concurrency": "^1.0.0"
+    "ember-concurrency": "^1.0.0",
+    "@lblod/marawa": "^0.6.0"
   },
   "dependencies": {
     "@lblod/ember-rdfa-editor-generic-model-plugin-utils": "^0.2.3",
