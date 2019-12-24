@@ -13,11 +13,11 @@
         <i class="fa fa-eye-slash"></i> <span>Gepland besloten</span>
       {{/if}}
     </span>
-    <p property="dc:title">
+    <p property="dc:title" datatype="xsd:string">
       {{agendapunt.titel}}
     </p>
     {{#if agendapunt.beschrijving}}
-      <p property="dc:description">
+      <p property="dc:description" datatype="xsd:string">
         {{agendapunt.beschrijving}}
       </p>
     {{/if}}
