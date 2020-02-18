@@ -8,5 +8,8 @@ module.exports = {
         // extra webpack configuration goes here
       }
     }
+  },
+  isDevelopingAddon() {
+    return true;
   }
 };

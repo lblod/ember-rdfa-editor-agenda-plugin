@@ -109,12 +109,15 @@ export default Component.extend({
 
   getBvapOpenbaarValue(agendapunt){
     let agendapuntUri = agendapunt.get('uri');
-    let bvaps = [ ...this.findbvapDomNodes() ];
-    let bvapDom = bvaps.find(bvap => bvap.querySelector("[property='dc:subject']").getAttribute('resource') == agendapuntUri);
+    let bvaps = [ ...this.findbvapDomNodes().selections ];
+    let bvapDom = bvaps.find(bvap => {
+      const selection = this.get('editor').selectContext(bvap.range, {property: 'http://purl.org/dc/terms/subject', resource: agendapuntUri})
+      return !this.get('editor').isEmpty(selection)
+    });
     if(!bvapDom) return false;
-    let openbaarDom = bvapDom.querySelector('[property="besluit:openbaar"]');
-    if(!openbaarDom) return false;
-    return openbaarDom.getAttribute('content') == 'true';
+    const openbaarDom = this.get('editor').selectContext(bvapDom.range, {property: 'http://data.vlaanderen.be/ns/besluit#openbaar'})
+    if(!openbaarDom.selections) return false;
+    return openbaarDom.selections[0].richNode.rdfaAttributes.content == 'true';
   },
 
   createWrappingHTML(innerHTML, type = 'ext:agendapuntenTable'){
@@ -131,9 +134,8 @@ export default Component.extend({
   },
 
   findbvapDomNodes(){
-    let bvap  = document.querySelectorAll("[typeof='besluit:BehandelingVanAgendapunt']");
-    if(bvap.length == 0 )
-      bvap = document.querySelectorAll("[typeof='http://data.vlaanderen.be/ns/besluit#BehandelingVanAgendapunt']");
+    const fullRange = [this.get('editor').richNode.start, this.get('editor').richNode.end]
+    const bvap = this.get('editor').selectContext(fullRange, { typeof: 'http://data.vlaanderen.be/ns/besluit#BehandelingVanAgendapunt' })
     return bvap;
   },
 
@@ -145,9 +147,8 @@ export default Component.extend({
   },
 
   findBvapContainer(){
-    let container = document.querySelector("[property='ext:behandelingVanAgendapuntenContainer']");
-    if(!container)
-      container = document.querySelector("[typeof='http://mu.semte.ch/vocabularies/ext/behandelingVanAgendapuntenContainer']");
+    const fullRange = [this.get('editor').richNode.start, this.get('editor').richNode.end]
+    const container = this.get('editor').selectContext(fullRange, { property: 'http://mu.semte.ch/vocabularies/ext/behandelingVanAgendapuntenContainer' })
     return container;
   },
 
@@ -214,9 +215,12 @@ export default Component.extend({
   },
 
   insertBvaps(){
-    let bvaps = [ ...this.findbvapDomNodes() ];
+    let bvaps = [ ...this.findbvapDomNodes().selections ];
     let bvapsMap = {};
-    bvaps.forEach(ap => bvapsMap[ap.querySelector("[property='dc:subject']").getAttribute('resource')] = ap );
+
+    bvaps.forEach(ap => {
+      return bvapsMap[ap.querySelector("[property='dc:subject']").getAttribute('resource')] = ap 
+    });
 
     //clean up
     bvaps.forEach(ap => ap.remove());
@@ -249,8 +253,11 @@ export default Component.extend({
     insert() {
       const html = this.createWrappingHTML(document.getElementById(this.outputAgendapuntenId).innerHTML);
       this.hintsRegistry.removeHintsAtLocation(this.location, this.hrId, this.info.who);
-      this.get('editor').replaceNodeWithHTML(this.getDomNodeToUpdate(this.info.domReference.value), html);
-      this.get('editor').replaceNodeWithHTML(this.findBvapContainer(), this.insertBvaps());
+      const fullRange = [this.get('editor').richNode.start, this.get('editor').richNode.end]
+      const selection = this.get('editor').selectContext(fullRange, { property: this.info.domProperty })
+      this.get('editor').update(selection, { set: { innerHTML: html }})
+      const bvapContainer = this.findBvapContainer()
+      this.get('editor').update(bvapContainer, { set: { innerHTML: this.insertBvaps() }})
     },
     cancel() {
       this.loadData.perform(); // reset modal state by loading data from document again
