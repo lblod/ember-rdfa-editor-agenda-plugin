@@ -7,6 +7,7 @@ import EmberObject from '@ember/object';
 import { notEmpty } from '@ember/object/computed';
 import { A } from '@ember/array';
 import { next } from '@ember/runloop';
+import copyEmberObject from '../../utils/copy-ember-object';
 
 export default Component.extend({
   layout,
@@ -31,7 +32,7 @@ export default Component.extend({
       agendapunt.set('bvapOpenbaar', false);
       agendapunt.set('position', this.agendapunten.length); // add new agendapunt at the end by default
       this.set('selectedAgendapunt', agendapunt);
-      const copiedAgendapunt = EmberObject.create(assign({}, agendapunt));
+      const copiedAgendapunt = copyEmberObject(agendapunt);
       this.set('selectedAgendapuntOriginal', copiedAgendapunt);
       this.agendapunten.pushObject(agendapunt);
     } catch (e) {
@@ -49,7 +50,7 @@ export default Component.extend({
       const position = this.agendapunten.indexOf(agendapunt);
       agendapunt.set('position', position);
       this.set('selectedAgendapunt', agendapunt);
-      const copiedAgendapunt = EmberObject.create(assign({}, agendapunt));
+      const copiedAgendapunt = copyEmberObject(agendapunt);
       this.set('selectedAgendapuntOriginal', copiedAgendapunt);
     },
     removeAgendapunt() {
@@ -62,7 +63,7 @@ export default Component.extend({
       let newPosition = this.selectedAgendapunt.position;
 
       this.selectedAgendapunt.set('isCreationMode', false);
-      const copiedAgendapunt = EmberObject.create(assign({}, this.selectedAgendapunt));
+      const copiedAgendapunt = copyEmberObject(this.selectedAgendapunt);
 
       if (originalPosition == newPosition) {
         this.agendapunten.replace(originalPosition, 1, [copiedAgendapunt]);
