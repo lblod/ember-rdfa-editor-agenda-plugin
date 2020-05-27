@@ -41,13 +41,15 @@ const RdfaEditorAgendaPlugin = Service.extend({
 
       if(!triple) continue;
 
+      const domProperty = triple.predicate
+
       let domNode = this.findDomNodeForContext(editor, context, this.domNodeMatchesRdfaInstructive(triple));
 
       if(!domNode) continue;
 
       if(triple.predicate == this.insertAgendaText){
         hintsRegistry.removeHintsInRegion(context.region, hrId, this.who);
-        hints.pushObjects(this.generateHintsForContext(context, triple, domNode, editor));
+        hints.pushObjects(this.generateHintsForContext(context, triple, domNode, editor, domProperty));
       }
 
       let domNodeRegion = [ editor.getRichNodeFor(domNode).start, editor.getRichNodeFor(domNode).end ];
@@ -63,6 +65,7 @@ const RdfaEditorAgendaPlugin = Service.extend({
     if(cards.length > 0){
       hintsRegistry.addHints(hrId, this.who, cards);
     }
+    yield;
   }),
 
   /**
@@ -124,6 +127,7 @@ const RdfaEditorAgendaPlugin = Service.extend({
         domReference: hint.domReference,
         instructiveUri: hint.instructiveUri,
         editMode: hint.options.editMode,
+        domProperty: hint.domProperty,
         hrId, hintsRegistry, editor
       },
 
@@ -145,7 +149,7 @@ const RdfaEditorAgendaPlugin = Service.extend({
    *
    * @private
    */
-  generateHintsForContext(context, instructiveTriple, domNode, editor, options = {}){
+  generateHintsForContext(context, instructiveTriple, domNode, editor, domProperty, options = {}){
     const hints = [];
     let location = context.region;
     //we keep only reference, domNode might not be attached when being used
@@ -158,7 +162,7 @@ const RdfaEditorAgendaPlugin = Service.extend({
       options.editMode = true;
     }
 
-    hints.push({location, domReference, instructiveUri: instructiveTriple.predicate, options});
+    hints.push({location, domReference, instructiveUri: instructiveTriple.predicate, domProperty, options});
     return hints;
   },
 
