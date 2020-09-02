@@ -144,13 +144,6 @@ export default Component.extend({
     return bvap;
   },
 
-  findBvapContainer(){
-    let container = document.querySelector("[property='ext:behandelingVanAgendapuntenContainer']");
-    if(!container)
-      container = document.querySelector("[typeof='http://mu.semte.ch/vocabularies/ext/behandelingVanAgendapuntenContainer']");
-    return container;
-  },
-
   createBvapDom(agendapunt){
     let html = `
       <div property="ext:behandelt" resource="http://data.lblod.info/id/behandelingen-van-agendapunten/${uuid()}" typeof="besluit:BehandelingVanAgendapunt">
@@ -242,15 +235,18 @@ export default Component.extend({
 
     //big html from bvap
     let allBvaps = newBvaps.map(b => b.outerHTML).join('&nbsp;');
-    return this.createWrappingHTML(allBvaps, 'ext:behandelingVanAgendapuntenContainer');
+    return allBvaps;
   },
 
   actions: {
     insert() {
-      const html = this.createWrappingHTML(document.getElementById(this.outputAgendapuntenId).innerHTML);
+      const html = this.createWrappingHTML();
       this.hintsRegistry.removeHintsAtLocation(this.location, this.hrId, this.info.who);
-      this.get('editor').replaceNodeWithHTML(this.getDomNodeToUpdate(this.info.domReference.value), html);
-      this.get('editor').replaceNodeWithHTML(this.findBvapContainer(), this.insertBvaps());
+      const updatedLocation = this.hintsRegistry.updateLocationToCurrentIndex(this.hrId, this.location);
+      const agendaSelection = this.editor.selectContext(updatedLocation, { property: this.info.tableUri});
+      this.editor.update(agendaSelection, {set: { innerHTML:document.getElementById(this.outputAgendapuntenId).innerHTML , property: 'http://mu.semte.ch/vocabularies/ext/agendapuntenTable'}});
+      const selection = this.editor.selectContext(this.editor.richNode.region, { property: 'http://mu.semte.ch/vocabularies/ext/behandelingVanAgendapuntenContainer'});
+      this.editor.update(selection, { set: { innerHTML: this.insertBvaps(), property: 'http://mu.semte.ch/vocabularies/ext/behandelingVanAgendapuntenContainer'} });
     },
     cancel() {
       this.loadData.perform(); // reset modal state by loading data from document again

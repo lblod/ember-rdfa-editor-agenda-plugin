@@ -3,6 +3,8 @@ import EmberObject from '@ember/object';
 import { task } from 'ember-concurrency';
 import { warn } from '@ember/debug';
 
+const ext = 'http://mu.semte.ch/vocabularies/ext/';
+
 /**
  * Service responsible for management of agenda
  *
@@ -121,8 +123,7 @@ const RdfaEditorAgendaPlugin = Service.extend({
 
       info: {
         location: hint.location,
-        domReference: hint.domReference,
-        instructiveUri: hint.instructiveUri,
+        tableUri: hint.domReference.value.replace('ext:', ext),
         editMode: hint.options.editMode,
         hrId, hintsRegistry, editor
       },
@@ -173,7 +174,6 @@ const RdfaEditorAgendaPlugin = Service.extend({
   },
 
   domNodeMatchesRdfaInstructive(instructiveRdfa){
-    const ext = 'http://mu.semte.ch/vocabularies/ext/';
     return (domNode) => {
       if(!domNode.attributes || !domNode.attributes.property)
         return false;
