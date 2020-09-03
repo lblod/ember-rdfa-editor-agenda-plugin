@@ -1,6 +1,6 @@
 {
   "name": "@lblod/ember-rdfa-editor-agenda-plugin",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "Plugin responsible to manage the agenda and behandeling van agendapunt for a zitting",
   "keywords": [
     "ember-addon"
